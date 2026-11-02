@@ -11,7 +11,7 @@ export default defineConfig({
       enforce: 'pre',
       transform(code, id) {
         if (!/[/\\]src[/\\].*\.[jt]sx?$/.test(id)) return
-        return code.replace(/(['"`])\/(assets\/|telescopes\/|credits\.txt)/g, `$1${base}$2`).replace(/href="\/"/g, `href="${base}"`)
+        return code.replace(/(['"`])\/(assets\/)/g, `$1${base}$2`).replace(/(href=\{?['"`])\//g, `$1${base}`)
       },
       async closeBundle() {
         const html = await readFile('dist/index.html', 'utf8')
