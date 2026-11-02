@@ -1,0 +1,918 @@
+{
+  "fermi": {
+    "page": "https://science.nasa.gov/3d-resources/fermi-gamma-ray-large-area-space-telescope/",
+    "url": "https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/fermi-gamma-ray-large-area-space-telescope/Fermi%20Gamma-ray%20Large%20Area%20Space%20Telescope.glb",
+    "credit": "NASA/Christopher R. Meaney",
+    "localFile": "/assets/models/fermi.glb",
+    "bytes": 1379016,
+    "meshDefinitions": 3,
+    "meshInstances": 3,
+    "drawCalls": 30,
+    "vertexCountIncludingInstances": 518364,
+    "trianglesIncludingInstances": 172788,
+    "materials": 27,
+    "images": [],
+    "extensions": [
+      "KHR_draco_mesh_compression"
+    ],
+    "bounds": {
+      "min": [
+        -4.27292013168335,
+        -7.398382186889648,
+        -31.163864135742188
+      ],
+      "max": [
+        4.27292013168335,
+        4.699999809265137,
+        31.143863677978516
+      ],
+      "size": [
+        8.5458402633667,
+        12.098381996154785,
+        62.3077278137207
+      ],
+      "center": [
+        0,
+        -1.3491911888122559,
+        -0.010000228881835938
+      ]
+    },
+    "materialNames": [
+      "Default.001",
+      "GLAST-black-fl.001",
+      "GLAST-black-sm.001",
+      "GLAST-bronze-fl.001",
+      "GLAST-bronze-sm.001",
+      "GLAST-DkGrey-fl.001",
+      "GLAST-DkGrey-sm.001",
+      "GLAST-gold-fl.001",
+      "GLAST-main body-center.001",
+      "GLAST-radiator-white-fl.001",
+      "GLAST-silver-fl.001",
+      "GLAST-silver-sm.001",
+      "GLAST-silverfoil-sm.001",
+      "GLAST-white-radiator.001",
+      "SDO-white-sm.001",
+      "GPMcore-SolarFaces1.001",
+      "GPMcore-SolarFaces2.001",
+      "GPMcore-SolarFaces3.001",
+      "GPMcore-SolarFaces4.001",
+      "GPMcore-SolarFaces5.001",
+      "GPMcore-SolarFaces6.001",
+      "GPMcore-SolarFaces7.001",
+      "GPMcore-SolarFaces8.001",
+      "SolarB-Bronze-sm.001",
+      "SolarB-Silver-fl.001",
+      "SolarB-SolarPanelBack.001",
+      "GLAST-top-LAT-cover.001"
+    ],
+    "qualityNotes": [
+      "Official geometry; Draco-compressed. DRACOLoader decoder must be locally served.",
+      "Exported metallicFactor=0 on all materials: physically motivated PBR corrections required for exposed metals.",
+      "No texture images in source; CAD-like appearance remains a limitation versus photographic references."
+    ],
+    "optimized": {
+      "bytes": 763320,
+      "draws": 24,
+      "triangles": 172516,
+      "bounds": {
+        "min": [
+          -4.27292013168335,
+          -7.398382186889648,
+          -31.163864135742188
+        ],
+        "max": [
+          4.27292013168335,
+          4.699865818023682,
+          31.143863677978516
+        ]
+      },
+      "materialCorrections": [
+        {
+          "material": "GLAST-bronze-fl.001",
+          "color": null,
+          "metalness": 0.72,
+          "roughness": 0.37
+        },
+        {
+          "material": "GLAST-bronze-sm.001",
+          "color": null,
+          "metalness": 0.72,
+          "roughness": 0.37
+        },
+        {
+          "material": "GLAST-gold-fl.001",
+          "color": [
+            0.83,
+            0.53,
+            0.13,
+            1
+          ],
+          "metalness": 0.85,
+          "roughness": 0.3
+        },
+        {
+          "material": "GLAST-radiator-white-fl.001",
+          "color": null,
+          "metalness": null,
+          "roughness": 0.72
+        },
+        {
+          "material": "GLAST-silver-fl.001",
+          "color": null,
+          "metalness": 0.82,
+          "roughness": 0.35
+        },
+        {
+          "material": "GLAST-silver-sm.001",
+          "color": null,
+          "metalness": 0.82,
+          "roughness": 0.35
+        },
+        {
+          "material": "GLAST-silverfoil-sm.001",
+          "color": null,
+          "metalness": 0.82,
+          "roughness": 0.35
+        },
+        {
+          "material": "GLAST-white-radiator.001",
+          "color": null,
+          "metalness": null,
+          "roughness": 0.72
+        },
+        {
+          "material": "GPMcore-SolarFaces1.001",
+          "color": [
+            0.1193498894572258,
+            0.13379961252212524,
+            0.19685295224189758,
+            1
+          ],
+          "metalness": 0.38,
+          "roughness": 0.32
+        },
+        {
+          "material": "GPMcore-SolarFaces2.001",
+          "color": [
+            0.11579880863428116,
+            0.12155977636575699,
+            0.1988823562860489,
+            1
+          ],
+          "metalness": 0.38,
+          "roughness": 0.32
+        },
+        {
+          "material": "GPMcore-SolarFaces3.001",
+          "color": [
+            0.09430556744337082,
+            0.10947207361459732,
+            0.1788477897644043,
+            1
+          ],
+          "metalness": 0.38,
+          "roughness": 0.32
+        },
+        {
+          "material": "GPMcore-SolarFaces4.001",
+          "color": [
+            0.11349256336688995,
+            0.1366051584482193,
+            0.18719284236431122,
+            1
+          ],
+          "metalness": 0.38,
+          "roughness": 0.32
+        },
+        {
+          "material": "GPMcore-SolarFaces5.001",
+          "color": [
+            0.11814545094966888,
+            0.12406548112630844,
+            0.19380882382392883,
+            1
+          ],
+          "metalness": 0.38,
+          "roughness": 0.32
+        },
+        {
+          "material": "GPMcore-SolarFaces6.001",
+          "color": [
+            0.12761081755161285,
+            0.1430630385875702,
+            0.2104819416999817,
+            1
+          ],
+          "metalness": 0.38,
+          "roughness": 0.32
+        },
+        {
+          "material": "GPMcore-SolarFaces7.001",
+          "color": [
+            0.0989680141210556,
+            0.11094778031110764,
+            0.16323530673980713,
+            1
+          ],
+          "metalness": 0.38,
+          "roughness": 0.32
+        },
+        {
+          "material": "GPMcore-SolarFaces8.001",
+          "color": [
+            0.10479716956615448,
+            0.11748605221509933,
+            0.1728501170873642,
+            1
+          ],
+          "metalness": 0.38,
+          "roughness": 0.32
+        },
+        {
+          "material": "SolarB-Bronze-sm.001",
+          "color": null,
+          "metalness": 0.72,
+          "roughness": 0.37
+        },
+        {
+          "material": "SolarB-Silver-fl.001",
+          "color": null,
+          "metalness": 0.82,
+          "roughness": 0.35
+        },
+        {
+          "material": "GLAST-top-LAT-cover.001",
+          "color": null,
+          "metalness": null,
+          "roughness": 0.72
+        }
+      ],
+      "optimization": "World-matrix baking + dedup + join by material; no decimation. Degenerate primitives may be removed by Draco encoding. Draco position 20 bits and normals 14 bits; bounds assertion and read-back validation passed."
+    },
+    "recommendedOrientation": {
+      "rotationEulerXYZ": [
+        0.7,
+        1.5707963268,
+        0.1
+      ],
+      "note": "Solar arrays span Z and panel front normals are +Y."
+    }
+  },
+  "hubble": {
+    "page": "https://science.nasa.gov/resource/hubble-space-telescope-3d-model-2/",
+    "url": "https://assets.science.nasa.gov/content/dam/science/astro/exo-explore/2023/09/Hubble-1.glb",
+    "credit": "NASA Visualization Technology Applications and Development (VTAD)",
+    "localFile": "/assets/models/hubble.glb",
+    "bytes": 11463124,
+    "meshDefinitions": 11,
+    "meshInstances": 11,
+    "drawCalls": 11,
+    "vertexCountIncludingInstances": 22520,
+    "trianglesIncludingInstances": 21129,
+    "materials": 10,
+    "images": [
+      {
+        "name": "hubble_tex_01.jpg",
+        "mime": "image/png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1771445
+      },
+      {
+        "name": "hubble_AO_1.jpg",
+        "mime": "image/png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 298750
+      },
+      {
+        "name": "hubble_AO_light.jpg",
+        "mime": "image/png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 625516
+      },
+      {
+        "name": "foil_n.jpg",
+        "mime": "image/png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "bytes": 463571
+      },
+      {
+        "name": "hubble_tex_01.jpg",
+        "mime": "image/png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1771445
+      },
+      {
+        "name": "hubble_tex_03.jpg",
+        "mime": "image/png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1282810
+      },
+      {
+        "name": "hubble_tex_01.jpg",
+        "mime": "image/png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1771445
+      },
+      {
+        "name": "hubble_tex_02.jpg",
+        "mime": "image/png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1335089
+      },
+      {
+        "name": "hubble_tex_03.jpg",
+        "mime": "image/png",
+        "dimensions": [
+          1024,
+          1024
+        ],
+        "bytes": 1282810
+      },
+      {
+        "name": "clear.png.001",
+        "mime": "image/png",
+        "dimensions": [
+          128,
+          128
+        ],
+        "bytes": 295
+      }
+    ],
+    "extensions": [],
+    "bounds": {
+      "min": [
+        -5.533473968505859,
+        -6.214977264404297,
+        -6.343234539031982
+      ],
+      "max": [
+        5.533465385437012,
+        10.51196575164795,
+        6.017541885375977
+      ],
+      "center": [
+        -4.291534423828125e-06,
+        2.148494243621826,
+        -0.16284632682800293
+      ],
+      "size": [
+        11.066939353942871,
+        16.726943016052246,
+        12.360776424407959
+      ]
+    },
+    "materialNames": [
+      "NASA_logo",
+      "AO_1",
+      "AO_light",
+      "foil_silver",
+      "shiny_panel",
+      "shiny_panel_cylinder",
+      "tex_01",
+      "tex_02",
+      "tex_03",
+      "transparent"
+    ],
+    "qualityNotes": [
+      "NASA VTAD 2019 model chosen over 3D Resources (A) because modern rigid dark solar arrays and large high-gain antenna dishes match the user SM4 reference.",
+      "Original authored PBR materials, foil normal map and 1024px photo atlases preserved without recoloring.",
+      "Meshes joined and Draco compressed with exact world-matrix baking. No decimation. 11 draw calls.",
+      "Texture resolution remains 1024px and is finite for macro inspection.",
+      "Hubble B rejected: exploded/disassembled mesh with no materials."
+    ],
+    "optimized": {
+      "bytes": 5941268,
+      "draws": 11,
+      "triangles": 21129,
+      "bounds": {
+        "min": [
+          -5.533473968505859,
+          -6.214977264404297,
+          -6.343234539031982
+        ],
+        "max": [
+          5.533465385437012,
+          10.51196575164795,
+          6.017541885375977
+        ]
+      },
+      "materialCorrections": [],
+      "optimization": "Exact world-matrix baking, dedup, join and Draco compression, no geometry decimation; authored PBR materials and normal maps retained. Bounds assertion and read-back validation passed."
+    },
+    "recommendedOrientation": {
+      "rotationEulerXYZ": [
+        0.3,
+        -0.5,
+        -0.55
+      ],
+      "note": "Main cylinder along Y, modern panel span along X, primary aperture opens toward +Y."
+    }
+  },
+  "james-webb": {
+    "page": "https://science.nasa.gov/3d-resources/james-webb-space-telescope-a/",
+    "url": "https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/james-webb-space-telescope-%28a%29/James%20Webb%20Space%20Telescope%20%28A%29.glb",
+    "credit": "NASA/Goddard Space Flight Center",
+    "localFile": "/assets/models/james-webb.glb",
+    "bytes": 4710016,
+    "meshDefinitions": 1600,
+    "meshInstances": 1600,
+    "drawCalls": 1657,
+    "vertexCountIncludingInstances": 508474,
+    "trianglesIncludingInstances": 493785,
+    "materials": 46,
+    "images": [],
+    "extensions": [
+      "KHR_draco_mesh_compression"
+    ],
+    "bounds": {
+      "min": [
+        -18.64100749749146,
+        -0.7869346030458375,
+        -7.386680845544729
+      ],
+      "max": [
+        9.721705436706543,
+        11.245917616742204,
+        7.38668013879508
+      ],
+      "size": [
+        28.362712934198004,
+        12.032852219788042,
+        14.773360984339808
+      ],
+      "center": [
+        -4.459651030392459,
+        5.229491506848183,
+        -3.5337482451325286e-07
+      ]
+    },
+    "materialNames": [
+      "James_Webb_Space_Telescope:blk_mli1",
+      "James_Webb_Space_Telescope:silver_mli1",
+      "James_Webb_Space_Telescope:corecov_smli1",
+      "James_Webb_Space_Telescope:blk_mli",
+      "James_Webb_Space_Telescope:pinkmli",
+      "James_Webb_Space_Telescope:mboom_boom_pinkmli",
+      "James_Webb_Space_Telescope:silver_mli",
+      "lambert1",
+      "James_Webb_Space_Telescope:asm_covrcleats_hr_car_v001:mboom_alu",
+      "James_Webb_Space_Telescope:asm_covrcleats_hr_car_v001:blkblack_",
+      "James_Webb_Space_Telescope:mboom_sml_pinkmli",
+      "James_Webb_Space_Telescope:carbonfiber",
+      "James_Webb_Space_Telescope:paintedblack",
+      "James_Webb_Space_Telescope:twr_blkmli",
+      "James_Webb_Space_Telescope:iec_pnkmli_sml",
+      "James_Webb_Space_Telescope:straylgt_blkmli",
+      "James_Webb_Space_Telescope:tower_blkmli_tubes",
+      "James_Webb_Space_Telescope:bipod_post_pmli",
+      "James_Webb_Space_Telescope:bafl_black0_lambert",
+      "James_Webb_Space_Telescope:bafl_graphite",
+      "James_Webb_Space_Telescope:mirror_blinn",
+      "James_Webb_Space_Telescope:omnimirror_blinn",
+      "James_Webb_Space_Telescope:sc_panels_pmli1",
+      "James_Webb_Space_Telescope:sc_ring_ssm",
+      "James_Webb_Space_Telescope:sc_sml_pmli1",
+      "James_Webb_Space_Telescope:prop_alum",
+      "James_Webb_Space_Telescope:sc_rad_smli1",
+      "James_Webb_Space_Telescope:sc_post_pmli1",
+      "James_Webb_Space_Telescope:sa_edge_gold1",
+      "James_Webb_Space_Telescope:whitepaint_lambert",
+      "James_Webb_Space_Telescope:black0_lambert",
+      "James_Webb_Space_Telescope:prop_drkalum_blin",
+      "James_Webb_Space_Telescope:sc_sml_pmli",
+      "James_Webb_Space_Telescope:sacells_blinn",
+      "James_Webb_Space_Telescope:sc_rad_smli",
+      "James_Webb_Space_Telescope:sa_edge_gold",
+      "James_Webb_Space_Telescope:sc_post_pmli",
+      "James_Webb_Space_Telescope:sc_panels_pmli",
+      "James_Webb_Space_Telescope:blackpaint_lambert1",
+      "James_Webb_Space_Telescope:mboom_sml_pinkmli1",
+      "James_Webb_Space_Telescope:mboom_boom_pinkmli1",
+      "James_Webb_Space_Telescope:mboom_alum",
+      "James_Webb_Space_Telescope:mboon_silvermli",
+      "James_Webb_Space_Telescope:mboom_blkmli",
+      "James_Webb_Space_Telescope:shld_silv1",
+      "James_Webb_Space_Telescope:shld_pink1"
+    ],
+    "qualityNotes": [
+      "Official geometry; Draco-compressed. DRACOLoader decoder must be locally served.",
+      "Exported metallicFactor=0 on all materials: physically motivated PBR corrections required for exposed metals.",
+      "No texture images in source; CAD-like appearance remains a limitation versus photographic references.",
+      "High draw count: join static geometry by material without simplification before runtime or during loading."
+    ],
+    "optimized": {
+      "bytes": 1734224,
+      "draws": 29,
+      "triangles": 492984,
+      "bounds": {
+        "min": [
+          -17.67538833618164,
+          -0.7586307525634766,
+          -7.386690616607666
+        ],
+        "max": [
+          9.721711158752441,
+          11.245918273925781,
+          7.3866801261901855
+        ]
+      },
+      "materialCorrections": [
+        {
+          "material": "James_Webb_Space_Telescope:blk_mli1",
+          "color": null,
+          "metalness": null,
+          "roughness": 0.65
+        },
+        {
+          "material": "James_Webb_Space_Telescope:silver_mli1",
+          "color": [
+            0.5,
+            0.53,
+            0.58,
+            1
+          ],
+          "metalness": 0.8,
+          "roughness": 0.35
+        },
+        {
+          "material": "James_Webb_Space_Telescope:corecov_smli1",
+          "color": [
+            0.5,
+            0.53,
+            0.58,
+            1
+          ],
+          "metalness": 0.8,
+          "roughness": 0.35
+        },
+        {
+          "material": "James_Webb_Space_Telescope:blk_mli",
+          "color": null,
+          "metalness": null,
+          "roughness": 0.65
+        },
+        {
+          "material": "James_Webb_Space_Telescope:pinkmli",
+          "color": [
+            0.5,
+            0.34,
+            0.38,
+            1
+          ],
+          "metalness": 0.75,
+          "roughness": 0.34
+        },
+        {
+          "material": "James_Webb_Space_Telescope:mboom_boom_pinkmli",
+          "color": [
+            0.5,
+            0.34,
+            0.38,
+            1
+          ],
+          "metalness": 0.75,
+          "roughness": 0.34
+        },
+        {
+          "material": "James_Webb_Space_Telescope:silver_mli",
+          "color": [
+            0.5,
+            0.53,
+            0.58,
+            1
+          ],
+          "metalness": 0.8,
+          "roughness": 0.35
+        },
+        {
+          "material": "James_Webb_Space_Telescope:asm_covrcleats_hr_car_v001:mboom_alu",
+          "color": null,
+          "metalness": 0.82,
+          "roughness": 0.32
+        },
+        {
+          "material": "James_Webb_Space_Telescope:asm_covrcleats_hr_car_v001:blkblack_",
+          "color": null,
+          "metalness": null,
+          "roughness": 0.65
+        },
+        {
+          "material": "James_Webb_Space_Telescope:mboom_sml_pinkmli",
+          "color": [
+            0.5,
+            0.34,
+            0.38,
+            1
+          ],
+          "metalness": 0.75,
+          "roughness": 0.34
+        },
+        {
+          "material": "James_Webb_Space_Telescope:carbonfiber",
+          "color": null,
+          "metalness": null,
+          "roughness": 0.65
+        },
+        {
+          "material": "James_Webb_Space_Telescope:paintedblack",
+          "color": null,
+          "metalness": null,
+          "roughness": 0.65
+        },
+        {
+          "material": "James_Webb_Space_Telescope:twr_blkmli",
+          "color": null,
+          "metalness": null,
+          "roughness": 0.65
+        },
+        {
+          "material": "James_Webb_Space_Telescope:iec_pnkmli_sml",
+          "color": [
+            0.5,
+            0.34,
+            0.38,
+            1
+          ],
+          "metalness": 0.75,
+          "roughness": 0.34
+        },
+        {
+          "material": "James_Webb_Space_Telescope:straylgt_blkmli",
+          "color": null,
+          "metalness": null,
+          "roughness": 0.65
+        },
+        {
+          "material": "James_Webb_Space_Telescope:tower_blkmli_tubes",
+          "color": null,
+          "metalness": null,
+          "roughness": 0.65
+        },
+        {
+          "material": "James_Webb_Space_Telescope:bipod_post_pmli",
+          "color": [
+            0.5,
+            0.34,
+            0.38,
+            1
+          ],
+          "metalness": 0.75,
+          "roughness": 0.34
+        },
+        {
+          "material": "James_Webb_Space_Telescope:bafl_black0_lambert",
+          "color": null,
+          "metalness": null,
+          "roughness": 0.65
+        },
+        {
+          "material": "James_Webb_Space_Telescope:mirror_blinn",
+          "color": [
+            0.85,
+            0.6,
+            0.18,
+            1
+          ],
+          "metalness": 0.98,
+          "roughness": 0.17
+        },
+        {
+          "material": "James_Webb_Space_Telescope:omnimirror_blinn",
+          "color": [
+            0.7,
+            0.72,
+            0.75,
+            1
+          ],
+          "metalness": 0.98,
+          "roughness": 0.2
+        },
+        {
+          "material": "James_Webb_Space_Telescope:sc_panels_pmli1",
+          "color": [
+            0.5,
+            0.34,
+            0.38,
+            1
+          ],
+          "metalness": 0.75,
+          "roughness": 0.34
+        },
+        {
+          "material": "James_Webb_Space_Telescope:sc_sml_pmli1",
+          "color": [
+            0.5,
+            0.34,
+            0.38,
+            1
+          ],
+          "metalness": 0.75,
+          "roughness": 0.34
+        },
+        {
+          "material": "James_Webb_Space_Telescope:prop_alum",
+          "color": null,
+          "metalness": 0.82,
+          "roughness": 0.32
+        },
+        {
+          "material": "James_Webb_Space_Telescope:sc_rad_smli1",
+          "color": [
+            0.5,
+            0.53,
+            0.58,
+            1
+          ],
+          "metalness": 0.8,
+          "roughness": 0.35
+        },
+        {
+          "material": "James_Webb_Space_Telescope:sc_post_pmli1",
+          "color": [
+            0.5,
+            0.34,
+            0.38,
+            1
+          ],
+          "metalness": 0.75,
+          "roughness": 0.34
+        },
+        {
+          "material": "James_Webb_Space_Telescope:sa_edge_gold1",
+          "color": null,
+          "metalness": 0.82,
+          "roughness": 0.32
+        },
+        {
+          "material": "James_Webb_Space_Telescope:black0_lambert",
+          "color": null,
+          "metalness": null,
+          "roughness": 0.65
+        },
+        {
+          "material": "James_Webb_Space_Telescope:prop_drkalum_blin",
+          "color": null,
+          "metalness": 0.82,
+          "roughness": 0.32
+        },
+        {
+          "material": "James_Webb_Space_Telescope:sc_sml_pmli",
+          "color": [
+            0.5,
+            0.34,
+            0.38,
+            1
+          ],
+          "metalness": 0.75,
+          "roughness": 0.34
+        },
+        {
+          "material": "James_Webb_Space_Telescope:sc_rad_smli",
+          "color": [
+            0.5,
+            0.53,
+            0.58,
+            1
+          ],
+          "metalness": 0.8,
+          "roughness": 0.35
+        },
+        {
+          "material": "James_Webb_Space_Telescope:sa_edge_gold",
+          "color": null,
+          "metalness": 0.82,
+          "roughness": 0.32
+        },
+        {
+          "material": "James_Webb_Space_Telescope:sc_post_pmli",
+          "color": [
+            0.5,
+            0.34,
+            0.38,
+            1
+          ],
+          "metalness": 0.75,
+          "roughness": 0.34
+        },
+        {
+          "material": "James_Webb_Space_Telescope:sc_panels_pmli",
+          "color": [
+            0.5,
+            0.34,
+            0.38,
+            1
+          ],
+          "metalness": 0.75,
+          "roughness": 0.34
+        },
+        {
+          "material": "James_Webb_Space_Telescope:blackpaint_lambert1",
+          "color": null,
+          "metalness": null,
+          "roughness": 0.65
+        },
+        {
+          "material": "James_Webb_Space_Telescope:mboom_sml_pinkmli1",
+          "color": [
+            0.5,
+            0.34,
+            0.38,
+            1
+          ],
+          "metalness": 0.75,
+          "roughness": 0.34
+        },
+        {
+          "material": "James_Webb_Space_Telescope:mboom_boom_pinkmli1",
+          "color": [
+            0.5,
+            0.34,
+            0.38,
+            1
+          ],
+          "metalness": 0.75,
+          "roughness": 0.34
+        },
+        {
+          "material": "James_Webb_Space_Telescope:mboom_alum",
+          "color": null,
+          "metalness": 0.82,
+          "roughness": 0.32
+        },
+        {
+          "material": "James_Webb_Space_Telescope:mboon_silvermli",
+          "color": [
+            0.5,
+            0.53,
+            0.58,
+            1
+          ],
+          "metalness": 0.8,
+          "roughness": 0.35
+        },
+        {
+          "material": "James_Webb_Space_Telescope:mboom_blkmli",
+          "color": null,
+          "metalness": null,
+          "roughness": 0.65
+        },
+        {
+          "material": "James_Webb_Space_Telescope:shld_silv1",
+          "color": [
+            0.67,
+            0.7,
+            0.75,
+            1
+          ],
+          "metalness": 0.85,
+          "roughness": 0.36
+        },
+        {
+          "material": "James_Webb_Space_Telescope:shld_pink1",
+          "color": [
+            0.66,
+            0.46,
+            0.51,
+            1
+          ],
+          "metalness": 0.75,
+          "roughness": 0.4
+        }
+      ],
+      "optimization": "World-matrix baking + dedup + join by material; no decimation. Degenerate primitives may be removed by Draco encoding. Draco position 20 bits and normals 14 bits; bounds assertion and read-back validation passed."
+    },
+    "recommendedOrientation": {
+      "rotationEulerXYZ": [
+        0,
+        -1.5707963268,
+        0
+      ],
+      "note": "Primary mirror faces +X in asset coordinates; telescope up is +Y."
+    }
+  }
+}

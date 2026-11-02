@@ -1,0 +1,23 @@
+ORBITAL telescope models
+
+James Webb Space Telescope (A): NASA/Goddard Space Flight Center
+https://science.nasa.gov/3d-resources/james-webb-space-telescope-a/
+
+Hubble Space Telescope: NASA Visualization Technology Applications and Development (VTAD)
+https://science.nasa.gov/resource/hubble-space-telescope-3d-model-2/
+Original Hubble PBR materials and photo textures preserved.
+
+Fermi Gamma-ray Large Area Space Telescope: NASA/Christopher R. Meaney
+https://science.nasa.gov/3d-resources/fermi-gamma-ray-large-area-space-telescope/
+
+NASA 3D Resources describes the repository assets as free and without copyright:
+https://github.com/nasa/NASA-3D-Resources/blob/master/README.md
+NASA usage guidelines:
+https://www.nasa.gov/nasa-brand-center/images-and-media/
+
+ORBITAL modifications: world transforms baked; static geometry joined by material;
+redundant image fallbacks removed; PBR metalness, roughness and selected material
+colors adjusted to distinguish gold, silver, thermal insulation and solar panels.
+No geometry decimation. Draco compression can remove zero-area triangles.
+These are educational visualization models, not engineering CAD or measured BRDFs.
+This independent project is not affiliated with or endorsed by NASA.
