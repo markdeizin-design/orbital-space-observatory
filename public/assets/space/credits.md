@@ -6,3 +6,5 @@ The bright Milky Way panorama is no longer rendered. The current backdrop combin
 - `nebula-carina.jpg`: Star birth in the extreme, heic0707a. Credit: NASA, ESA, N. Smith (University of California, Berkeley), and The Hubble Heritage Team (STScI/AURA). Source: https://esahubble.org/images/heic0707a/
 
 Modifications: resized for web delivery, opacity feathered, saturation and brightness reduced in the renderer. Original image structure is retained; no generative edits. ESA/Hubble reuse conditions: https://esahubble.org/copyright/ . This independent exhibition does not imply agency endorsement.
+
+Nebula cores have subtle independent brightness cycles. The rare distant comet is a procedural artistic accent, not a recorded astronomical event. All drift, brightness cycles and comet passes are disabled by reduced motion.

@@ -28,7 +28,7 @@ function MissionPanel({index,reduced,visible}:{index:number;reduced:boolean;visi
     },panel)
     return()=>ctx.revert()
   },[index,displayed,reduced,visible])
-  return <section ref={panel} className="mission-info" aria-live="polite"><div className="info-top"><span className="eyebrow">{mission.kicker}</span><span className="mono">0{displayed+1} / 03</span></div><h1>{mission.name}</h1><p>{mission.description}</p><dl><div><dt>ЗАПУСК</dt><dd>{mission.launch}</dd></div><div><dt>РАСПОЛОЖЕНИЕ</dt><dd>{mission.location}</dd></div></dl><div className="specs">{mission.stats.slice(0,2).map(s=><div key={s.label}><b>{s.value}</b><span>{s.label}</span></div>)}</div></section>
+  return <section ref={panel} className="mission-info" aria-live="polite"><div className="info-top"><span className="eyebrow">{mission.kicker}</span><span className="mono">0{displayed+1} / 03</span></div><h1>{mission.name}</h1><p>{mission.description}</p><div className="mission-facts"><dl><div><dt>ЗАПУСК</dt><dd>{mission.launch}</dd></div><div><dt>РАСПОЛОЖЕНИЕ</dt><dd>{mission.location}</dd></div></dl><div className="specs">{mission.stats.slice(0,2).map(s=><div key={s.label}><b>{s.value}</b><span>{s.label}</span></div>)}</div></div></section>
 }
 
 function Gallery({id}:{id:string}) {
@@ -64,7 +64,7 @@ function Observatory() {
   useLayoutEffect(()=>{
     const hero=root.current!.querySelector<HTMLElement>('.hero')!,panel=root.current!.querySelector<HTMLElement>('.mission-info')!,zone=document.getElementById('model-interaction')!
     const measure=()=>{
-      hero.style.setProperty('--model-top',`${panel.offsetTop+panel.offsetHeight+32}px`)
+      hero.style.setProperty('--model-top',`${panel.offsetTop+panel.offsetHeight+28}px`)
       const box=hero.parentElement!.getBoundingClientRect(),frame=zone.parentElement!
       const next={left:box.left+frame.offsetLeft+zone.offsetLeft,top:box.top+window.scrollY+frame.offsetTop+zone.offsetTop,width:zone.clientWidth,height:zone.clientHeight}
       setStage(previous=>Object.keys(next).every(key=>next[key as keyof ModelStage]===previous[key as keyof ModelStage])?previous:next)
@@ -79,7 +79,7 @@ function Observatory() {
     const ctx=gsap.context(()=>{
       ScrollTrigger.create({trigger:'.journey',start:'top top',end:'bottom bottom',scrub:reduced?false:1,onUpdate:self=>{
         progress.current=self.progress
-        gsap.set('.hero-interface',{opacity:1-Math.min(1,self.progress*3.5),y:reduced?0:-self.progress*100,pointerEvents:self.progress>.28?'none':'auto'})
+        gsap.set('.hero-interface',{opacity:reduced?1:Math.min(1,Math.max(0,1-(self.progress-.015)/.13)),y:reduced?0:-self.progress*65,pointerEvents:!reduced&&self.progress>.28?'none':'auto'})
       }})
       gsap.fromTo('.travel-copy',{autoAlpha:0,y:reduced?0:70},{autoAlpha:1,y:0,ease:'none',scrollTrigger:{trigger:'.journey',start:'top -35%',end:'top -70%',scrub:reduced?false:1}})
       if(!reduced)gsap.to('.travel-copy',{y:-70,opacity:0,ease:'none',scrollTrigger:{trigger:'.journey',start:'bottom 135%',end:'bottom 90%',scrub:1}})
@@ -103,9 +103,9 @@ function Observatory() {
       <div className="model-frame"><button className="switch previous" onClick={()=>choose(selected-1)} aria-label="Предыдущий телескоп"><Arrow/></button><div id="model-interaction" className="model-interaction" tabIndex={0} role="application" aria-label={`Вращение ${mission.short}: перетаскивайте мышью или используйте стрелки клавиатуры`}/><button className="switch next" onClick={()=>choose(selected+1)} aria-label="Следующий телескоп"><Arrow right/></button></div>
       <div className="model-tools"><span className="drag-icon">⤧</span><span>ПЕРЕТАЩИТЕ, ЧТОБЫ ВРАЩАТЬ</span><button onClick={()=>setReset(r=>r+1)} aria-label="Сбросить ориентацию телескопа">↺ СБРОС</button></div>
       <div className="earth-label"><span className="crosshair">+</span><span>ЗЕМЛЯ<small>НАШ ОБЩИЙ ДОМ</small></span></div>
-      <div className="hero-bottom"><nav aria-label="Выбор телескопа" className="mission-tabs">{missions.map((m,i)=><button key={m.id} className={i===selected?'selected':''} aria-pressed={i===selected} onClick={()=>choose(i)}><small>0{i+1}</small>{m.short}<span/></button>)}</nav><a href="#explorer" className="scroll-hint"><span>ПРОДОЛЖИТЬ ПУТЕШЕСТВИЕ</span><span>↓</span></a><span className="hero-note">РЕАЛЬНЫЕ МОДЕЛИ NASA<br/>МАСШТАБ УСЛОВНЫЙ</span></div>
+      <div className="hero-bottom"><nav aria-label="Выбор телескопа" className="mission-tabs">{missions.map((m,i)=><button key={m.id} className={i===selected?'selected':''} aria-pressed={i===selected} onClick={()=>choose(i)}><small>0{i+1}</small>{m.short}<span className="tab-indicator"/></button>)}</nav><a href="#explorer" className="scroll-hint"><span>ПРОДОЛЖИТЬ ПУТЕШЕСТВИЕ</span><span>↓</span></a><span className="hero-note">РЕАЛЬНЫЕ МОДЕЛИ NASA<br/>МАСШТАБ УСЛОВНЫЙ</span></div>
     </div><div className="travel-copy"><span className="eyebrow">ЗА ПРЕДЕЛАМИ ВИДИМОГО</span><p>Одна Вселенная.<br/>Разные способы её увидеть.</p><span className="travel-rule"/></div></div></section>
-    <section id="explorer" className="explorer"><div className="section-heading reveal"><div><span className="eyebrow">02 / TELESCOPE EXPLORER</span><h2>Расширяя<br/><em>горизонты.</em></h2></div><p>От первого света галактик до самых мощных взрывов в космосе. Три обсерватории раскрывают Вселенную в разных диапазонах.</p></div><div className="explorer-grid">{missions.map((m,i)=><article className="explorer-card reveal" key={m.id}><a className="card-image" href={`/telescopes/${m.id}`} aria-label={`Галерея ${m.short}`}><SpacecraftPhoto mission={m}/><span className="card-number">0{i+1}</span><span className="card-spectrum">{m.kicker}</span></a><div className="card-title"><h3>{m.short}</h3><a href={`/telescopes/${m.id}`}>GALLERY <span>↗</span></a></div><p>{m.purpose}</p><p className="photo-caption">{m.photoCaption}<br/><a href={m.photoSource} target="_blank" rel="noreferrer">{m.photoCredit} ↗</a></p></article>)}</div></section>
+    <section id="explorer" className="explorer"><div className="section-heading reveal"><div><span className="eyebrow">02 / TELESCOPE EXPLORER</span><h2>Расширяя<br/><em>горизонты.</em></h2></div><p>От первого света галактик до самых мощных взрывов в космосе. Три обсерватории раскрывают Вселенную в разных диапазонах.</p></div><div className="explorer-grid">{missions.map((m,i)=><article className="explorer-card reveal" key={m.id} data-selected={selected===i}><a className="card-image" href={`/telescopes/${m.id}`} aria-label={`Галерея ${m.short}`}><SpacecraftPhoto mission={m}/><span className="card-number">0{i+1}</span><span className="card-spectrum">{m.kicker}</span></a><div className="card-title"><h3>{m.short}</h3><a href={`/telescopes/${m.id}`}>GALLERY <span>↗</span></a></div><p>{m.purpose}</p><p className="photo-caption">{m.photoCaption}<br/><a href={m.photoSource} target="_blank" rel="noreferrer">{m.photoCredit} ↗</a></p></article>)}</div></section>
     </main><Credits/>
   </div>
 }

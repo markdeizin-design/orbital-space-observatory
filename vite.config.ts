@@ -5,6 +5,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 const base = '/orbital-space-observatory/'
 export default defineConfig({
   base,
+  cacheDir: '.vite-cache',
   plugins: [
     {
       name: 'project-pages-paths',

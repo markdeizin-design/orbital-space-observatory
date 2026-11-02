@@ -157,3 +157,7 @@ Manrope: Mikhail Sharanda and Mirko Velimirovic. IBM Plex Mono: IBM. SIL Open Fo
 Full notices: assets/fonts/Manrope-OFL.txt and assets/fonts/IBM-Plex-Mono-OFL.txt.
 Google Draco: Copyright 2016 The Draco Authors. Apache 2.0, assets/draco/LICENSE.txt.
 
+
+
+SCENE REFINEMENTS
+Earth: directional cloud shadows and a thin-shell optical-path approximation of atmospheric scattering. Spacecraft: directional PCF soft shadows. Nebula cores have subtle artistic brightness cycles. Rare procedural distant comet passes are exhibition accents, not recorded astronomical events. Reduced motion disables camera flight, drifting and comet passes.

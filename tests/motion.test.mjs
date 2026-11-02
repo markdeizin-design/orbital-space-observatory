@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { travelProgress, wrapMission, fittedProjectedScale, fittedSphereRadius, fittedProjectedPose, remainingEntrance } from '../src/motion.ts'
+import { travelProgress, wrapMission, fittedProjectedScale, fittedSphereRadius, fittedProjectedPose, remainingEntrance, cameraJourney, openingViewport } from '../src/motion.ts'
 import { Euler, Vector3 } from 'three'
 
 test('journey progress clamps overscroll and reverses along the same path', () => {
@@ -80,4 +80,17 @@ test('layout retarget preserves entrance delay and arrival deadline', () => {
   assert.deepEqual(remainingEntrance(1,4,2), {delay:0,duration:2})
   assert.deepEqual(remainingEntrance(1,4,5), {delay:0,duration:0})
   assert.deepEqual(remainingEntrance(2,2,2), {delay:0,duration:0})
+})
+
+test('camera travels down and back along a reversible path with fixed scene coordinates', () => {
+  assert.equal(cameraJourney(-1).z,10);assert.equal(cameraJourney(-1).pitch,0)
+  const end=cameraJourney(1)
+  assert.ok(end.y<0&&end.z>10&&end.pitch>Math.PI/3)
+  const forward=[0,.1,.3,.5,.7,1].map(cameraJourney)
+  const reversed=[1,.7,.5,.3,.1,0].map(cameraJourney).reverse()
+  assert.deepEqual(forward,reversed)
+  assert.deepEqual(cameraJourney(2),end)
+  const middle=cameraJourney(.39)
+  assert.equal(middle.z,18);assert.equal(middle.y,-4.5)
+  assert.ok(Math.abs(openingViewport(1280,720).width/openingViewport(1280,720).height-1280/720)<1e-12)
 })

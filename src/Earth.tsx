@@ -49,14 +49,18 @@ void main() {
   float cloudDistance = -alongSun + sqrt(alongSun * alongSun + 1.003 * 1.003 - 1.0);
   vec3 cloudPoint = normalize(localNormal + cloudDistance * localSun);
   vec2 shadowUv = vec2(fract(atan(cloudPoint.z, -cloudPoint.x) / 6.2831853 - cloudRotation / 6.2831853), asin(clamp(cloudPoint.y, -1.0, 1.0)) / 3.14159265 + 0.5);
-  float cloudShadow = smoothstep(0.08, 0.92, texture2D(cloudMap, shadowUv).r);
-  float directLight = max(sun, 0.0) * 0.90 * (1.0 - cloudShadow * 0.18);
+  float cloudDensity = texture2D(cloudMap, shadowUv).r * 0.5
+    + texture2D(cloudMap, shadowUv + vec2(0.0005, 0.00025)).r * 0.25
+    + texture2D(cloudMap, shadowUv - vec2(0.0005, 0.00025)).r * 0.25;
+  float cloudShadow = smoothstep(0.08, 0.92, cloudDensity);
+  float directLight = max(sun, 0.0) * 0.90 * (1.0 - cloudShadow * 0.34);
   vec3 color = day * (0.002 + directLight);
   float lights = smoothstep(0.02, 0.23, max(night.r, max(night.g, night.b)));
   color += night * lights * (1.0 - smoothstep(-0.16, 0.02, sun)) * 0.40;
   vec3 halfDirection = normalize(sunDirection + viewDirection);
-  float glint = pow(max(dot(n, halfDirection), 0.0), 28.0);
-  color += vec3(0.62, 0.75, 0.88) * glint * ocean * daylight * 0.012;
+  float glint = pow(max(dot(n, halfDirection), 0.0), 56.0);
+  float fresnel = 0.02 + 0.98 * pow(1.0 - max(dot(viewDirection, halfDirection), 0.0), 5.0);
+  color += vec3(0.62, 0.75, 0.88) * glint * fresnel * ocean * daylight * 0.11;
   float rim = pow(1.0 - max(dot(n, viewDirection), 0.0), 2.8);
   color = mix(color, vec3(0.015, 0.047, 0.095), rim * daylight * 0.12);
   gl_FragColor = vec4(color, 1.0);
@@ -88,9 +92,17 @@ varying vec3 vPosition;
 void main() {
   vec3 n = normalize(vNormal);
   vec3 eye = normalize(cameraPosition - vPosition);
-  float rim = pow(1.0 - max(dot(n, eye), 0.0), 5.5);
-  float sun = smoothstep(-0.16, 0.65, dot(n, sunDirection));
-  gl_FragColor = vec4(vec3(0.08, 0.24, 0.48), rim * sun * 0.14);
+  float mu = max(dot(n, eye), 0.0);
+  // Ray length through a thin shell vanishes at the outer edge and peaks above the ground limb.
+  float radius = 1.016;
+  float groundHit = 1.0 - radius * radius * (1.0 - mu * mu);
+  float path = groundHit > 0.0
+    ? radius * mu - sqrt(groundHit)
+    : 2.0 * radius * mu;
+  float sunlight = smoothstep(-0.16, 0.42, dot(n, sunDirection));
+  float phase = 0.75 * (1.0 + pow(dot(eye, sunDirection), 2.0));
+  float scatter = (1.0 - exp(-max(path, 0.0) * 3.8)) * sunlight * 0.64;
+  gl_FragColor = vec4(vec3(0.018, 0.15, 0.48) * phase, scatter);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
 }`
@@ -120,8 +132,8 @@ export default function Earth({ position = [0, 0, 0], scale = 1, reducedMotion =
   useFrame((_, delta) => {
     const step = Math.min(delta, 0.05)
     if (!reducedMotion) {
-      if (globe.current) globe.current.rotation.y += step * 0.008
-      if (clouds.current) clouds.current.rotation.y += step * 0.002
+      if (globe.current) globe.current.rotation.y += step * 0.0015
+      if (clouds.current) clouds.current.rotation.y += step * 0.001
     }
     if (globe.current) {
       globe.current.updateWorldMatrix(true, false)
@@ -142,7 +154,7 @@ export default function Earth({ position = [0, 0, 0], scale = 1, reducedMotion =
           <shaderMaterial vertexShader={vertex} fragmentShader={cloudFragment} uniforms={uniforms.clouds} transparent depthWrite={false} />
         </mesh>
       </group>
-      <mesh scale={1.012}>
+      <mesh scale={1.016}>
         <sphereGeometry args={[1, 96, 64]} />
         <shaderMaterial vertexShader={vertex} fragmentShader={atmosphereFragment} uniforms={uniforms.atmosphere} transparent depthWrite={false} />
       </mesh>

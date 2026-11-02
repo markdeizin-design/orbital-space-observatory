@@ -63,3 +63,13 @@ export function fittedProjectedPose(
 export function remainingEntrance(start: number, end: number, now: number) {
   return { delay: Math.max(0, start-now), duration: Math.max(0, end-Math.max(start,now)) }
 }
+
+export function cameraJourney(progress: number) {
+  const p=Math.min(1,Math.max(0,progress/.78))
+  const t=p*p*p*(p*(p*6-15)+10)
+  return {x:-1.5*t,y:-9*t,z:10+16*t,pitch:Math.PI*.43*t}
+}
+export function openingViewport(width: number,height: number) {
+  const worldHeight=20*Math.tan(Math.PI/9)
+  return {width:worldHeight*width/height,height:worldHeight}
+}

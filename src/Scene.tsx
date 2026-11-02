@@ -6,7 +6,7 @@ import gsap from 'gsap'
 import Earth from './Earth'
 import Cosmos from './Cosmos'
 import { missions } from './missions'
-import { fittedProjectedPose, remainingEntrance } from './motion'
+import { fittedProjectedPose, remainingEntrance, cameraJourney, openingViewport } from './motion'
 import hulls from './model-hulls.json'
 
 const modelOrientations: [number,number,number][] = [[.22,-1.12,.12],[.3,-.5,-.55],[.7,Math.PI/2,-.25]]
@@ -49,7 +49,8 @@ function Starfield({reduced}: {reduced:boolean}) {
 
 function Telescope({index,selected,reset,reduced,stage,onSettled}: SceneProps & {index:number}) {
   const {scene} = useGLTF(missions[index].model, '/assets/draco/')
-  const {viewport,size} = useThree()
+  const {size} = useThree()
+  const viewport=openingViewport(size.width,size.height)
   const outer = useRef<THREE.Group>(null!), offset=useRef<THREE.Group>(null!), pivot=useRef<THREE.Group>(null!), model=useRef<THREE.Group>(null!)
   const scale=useRef(0)
   const hull=useMemo(()=>hulls[missions[index].id].points.map(p=>new THREE.Vector3(...p as [number,number,number])),[index])
@@ -60,6 +61,7 @@ function Telescope({index,selected,reset,reduced,stage,onSettled}: SceneProps & 
   const normalized = useMemo(()=>{
     const clone=scene.clone(true), sphere=new THREE.Box3().setFromObject(clone).getBoundingSphere(new THREE.Sphere())
     clone.position.sub(sphere.center)
+    clone.traverse(object=>{if(object instanceof THREE.Mesh){object.castShadow=true;object.receiveShadow=true}})
     const wrapper=new THREE.Group(); wrapper.add(clone);wrapper.scale.setScalar(1/sphere.radius)
     return wrapper
   },[scene])
@@ -123,32 +125,26 @@ function Telescope({index,selected,reset,reduced,stage,onSettled}: SceneProps & 
 }
 
 function World(props:SceneProps) {
-  const {camera,viewport,size} = useThree()
-  const world=useRef<THREE.Group>(null!), earth=useRef<THREE.Group>(null!)
+  const {camera,size} = useThree()
+  const viewport=openingViewport(size.width,size.height)
   const smoothProgress=useRef(0)
   const mobile=size.width<=650
   useEffect(()=>{props.onReady()},[props.onReady])
   useFrame((state,dt)=>{
     smoothProgress.current=THREE.MathUtils.damp(smoothProgress.current,props.progress.current,props.reduced?100:5,dt)
     const p=props.reduced?0:smoothProgress.current
-    const departure=THREE.MathUtils.smoothstep(p,0,.65)
-    world.current.position.set(-departure*viewport.width*2,departure*1.8,-departure*14)
-    world.current.rotation.set(departure*.12,-departure*.35,-departure*.18)
-    earth.current.position.set(viewport.width*(mobile?.68:.62)+p*viewport.width*2.8, -viewport.height*(mobile?.38:.25)-p*3,-4-p*7)
-    camera.position.x=THREE.MathUtils.damp(camera.position.x,(!props.reduced?state.pointer.x*.035:0)+Math.sin(p*Math.PI)*1.5,3,dt)
-    camera.position.y=THREE.MathUtils.damp(camera.position.y,(!props.reduced?state.pointer.y*.025:0)+Math.sin(p*Math.PI)*.75,3,dt)
-    camera.position.z=10+p*14
-    const bank=Math.sin(p*Math.PI)*.055
-    camera.up.set(Math.sin(bank),Math.cos(bank),0)
-    camera.lookAt(-p*.5,p*.3,-p*7)
+    const flight=cameraJourney(p)
+    camera.position.set(flight.x+(!props.reduced?state.pointer.x*.025:0),flight.y+(!props.reduced?state.pointer.y*.02:0),flight.z)
+    camera.up.set(0,1,0)
+    camera.lookAt(camera.position.x,camera.position.y-Math.sin(flight.pitch)*30,camera.position.z-Math.cos(flight.pitch)*30)
   })
   return <>
     <Cosmos reduced={props.reduced}/>
     <Starfield reduced={props.reduced}/>
-    <ambientLight intensity={.35}/><directionalLight position={[-5,6,8]} intensity={3.4} color="#ffefd9"/><directionalLight position={[5,-2,-5]} intensity={1.8} color="#92b9dd"/>
-    <Environment resolution={128} frames={1}><Lightformer form="rect" intensity={1.3} color="#e2e9ec" position={[0,0,8]} scale={[18,12,1]}/><Lightformer form="rect" intensity={3} position={[-4,5,4]} scale={[8,5,1]}/><Lightformer form="rect" intensity={1.5} color="#8baec8" position={[5,0,-4]} scale={[4,7,1]}/><Lightformer form="rect" intensity={2} position={[0,-5,2]} scale={[5,2,1]}/></Environment>
-    <group ref={earth}><Earth scale={mobile?viewport.width*.95:viewport.height*.78} reducedMotion={props.reduced}/></group>
-    <group ref={world}>{missions.map((_,index)=><Telescope key={index} {...props} index={index}/>)}</group>
+    <ambientLight intensity={.06}/><directionalLight castShadow position={[-6,8,10]} intensity={3.6} color="#ffefd9" shadow-mapSize={[mobile?1024:2048,mobile?1024:2048]} shadow-camera-left={-7} shadow-camera-right={3} shadow-camera-top={4} shadow-camera-bottom={-5} shadow-camera-near={.5} shadow-camera-far={40} shadow-bias={-.00015} shadow-normalBias={.005} shadow-radius={3}/><directionalLight position={[5,-2,-5]} intensity={.4} color="#92b9dd"/>
+    <Environment resolution={128} frames={1}><Lightformer form="rect" intensity={.4} color="#e2e9ec" position={[0,0,8]} scale={[18,12,1]}/><Lightformer form="rect" intensity={1.8} position={[-4,5,4]} scale={[8,5,1]}/><Lightformer form="rect" intensity={.7} color="#8baec8" position={[5,0,-4]} scale={[4,7,1]}/><Lightformer form="rect" intensity={.4} position={[0,-5,2]} scale={[5,2,1]}/></Environment>
+    <group position={[viewport.width*(mobile?.70:.67)*32/14,-viewport.height*(mobile?.38:.28)*32/14,-22]}><Earth scale={(mobile?viewport.width*.98:viewport.height*.82)*32/14} reducedMotion={props.reduced}/></group>
+    <group>{missions.map((_,index)=><Telescope key={index} {...props} index={index}/>)}</group>
     <AdaptiveDpr pixelated/>
   </>
 }
@@ -166,7 +162,7 @@ function ContextEvents({onLost,onRestored}:{onLost:()=>void;onRestored:()=>void}
 
 export default function Scene(props:SceneProps) {
   const [dpr,setDpr]=useState(1.5),[lost,setLost]=useState(false)
-  return <SceneBoundary><div className="space-canvas" aria-hidden="true"><Canvas dpr={dpr} camera={{position:[0,0,10],fov:40,near:.1,far:300}} gl={{antialias:true,alpha:false,powerPreference:'high-performance'}} onCreated={({gl})=>{
+  return <SceneBoundary><div className="space-canvas" aria-hidden="true"><Canvas shadows={{type:THREE.PCFSoftShadowMap}} dpr={dpr} camera={{position:[0,0,10],fov:40,near:.1,far:350}} gl={{antialias:true,alpha:false,powerPreference:'high-performance'}} onCreated={({gl})=>{
     setLost(false);gl.setClearColor('#030609');gl.toneMapping=THREE.ACESFilmicToneMapping;gl.toneMappingExposure=1.1
   }}><ContextEvents onLost={()=>setLost(true)} onRestored={()=>setLost(false)}/><PerformanceMonitor onDecline={()=>setDpr(1)}><Suspense fallback={null}><World {...props}/></Suspense></PerformanceMonitor></Canvas></div><Loading/>{lost&&<div className="context-notice" role="alert">Восстанавливаем 3D-сцену… <button onClick={()=>location.reload()}>Перезагрузить</button></div>}</SceneBoundary>
 }
