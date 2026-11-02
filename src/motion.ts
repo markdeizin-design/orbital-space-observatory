@@ -59,3 +59,7 @@ export function fittedProjectedPose(
   // Translate outside the rotation pivot so an asymmetric silhouette stays centered.
   return { scale, x: centerX - scale * (minX + maxX) / 2, y: centerY - scale * (minY + maxY) / 2 }
 }
+
+export function remainingEntrance(start: number, end: number, now: number) {
+  return { delay: Math.max(0, start-now), duration: Math.max(0, end-Math.max(start,now)) }
+}

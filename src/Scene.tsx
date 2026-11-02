@@ -6,7 +6,7 @@ import gsap from 'gsap'
 import Earth from './Earth'
 import Cosmos from './Cosmos'
 import { missions } from './missions'
-import { fittedProjectedPose } from './motion'
+import { fittedProjectedPose, remainingEntrance } from './motion'
 import hulls from './model-hulls.json'
 
 const modelOrientations: [number,number,number][] = [[.22,-1.12,.12],[.3,-.5,-.55],[.7,Math.PI/2,-.25]]
@@ -56,7 +56,7 @@ function Telescope({index,selected,reset,reduced,stage,onSettled}: SceneProps & 
   const rotatedHull=useMemo(()=>hull.map(p=>p.clone()),[hull])
   const rotation=useMemo(()=>new THREE.Quaternion(),[])
   const velocity=useRef(new THREE.Vector2()), pointer=useRef<{x:number;y:number}|null>(null)
-  const first=useRef(true),lastSelection=useRef(-1)
+  const first=useRef(true),lastSelection=useRef(-1),entrance=useRef({start:0,end:0,active:false})
   const normalized = useMemo(()=>{
     const clone=scene.clone(true), sphere=new THREE.Box3().setFromObject(clone).getBoundingSphere(new THREE.Sphere())
     clone.position.sub(sphere.center)
@@ -73,19 +73,24 @@ function Telescope({index,selected,reset,reduced,stage,onSettled}: SceneProps & 
     if(first.current)group.position.y=y
     first.current=false
     gsap.killTweensOf(group.position);gsap.killTweensOf(group.rotation)
-    if(!selectionChanged){
-      group.position.set(index===selected?x:-viewport.width*1.3,y,0)
-      group.rotation.set(0,0,0)
-      group.visible=index===selected
-      if(index===selected)onSettled(index)
-      return
-    }
+    const now=performance.now()/1000
     if(index===selected) {
       group.visible=true
-      if(group.position.x < -viewport.width*.6)group.rotation.set(0,-.2,.1)
-      gsap.to(group.position,{x,y,duration:reduced?0:3,delay:reduced?0:delay,ease:'power3.out',onComplete:()=>onSettled(index)})
-      gsap.to(group.rotation,{x:0,y:0,z:0,duration:reduced?0:3,delay:reduced?0:delay,ease:'power2.out'})
-    } else gsap.to(group.position,{x:-viewport.width*1.3,duration:reduced?0:1,ease:'power2.inOut',onComplete:()=>{group.visible=false}})
+      if(selectionChanged){
+        entrance.current={start:now+(reduced?0:delay),end:now+(reduced?0:delay+3),active:!reduced}
+        if(group.position.x < -viewport.width*.6)group.rotation.set(0,-.2,.1)
+      }
+      if(!selectionChanged&&!entrance.current.active){
+        group.position.set(x,y,0);group.rotation.set(0,0,0)
+      } else {
+        const timing=remainingEntrance(entrance.current.start,entrance.current.end,now)
+        gsap.to(group.position,{x,y,...timing,ease:'power3.out',onComplete:()=>{entrance.current.active=false;onSettled(index)}})
+        gsap.to(group.rotation,{x:0,y:0,z:0,...timing,ease:'power2.out'})
+      }
+    } else {
+      entrance.current.active=false
+      gsap.to(group.position,{x:-viewport.width*1.3,duration:reduced?0:1,ease:'power2.inOut',onComplete:()=>{group.visible=false}})
+    }
     return ()=>{gsap.killTweensOf(group.position);gsap.killTweensOf(group.rotation)}
   },[selected,index,viewport.width,reduced,x,y,onSettled])
   useEffect(()=>{

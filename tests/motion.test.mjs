@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { travelProgress, wrapMission, fittedProjectedScale, fittedSphereRadius, fittedProjectedPose } from '../src/motion.ts'
+import { travelProgress, wrapMission, fittedProjectedScale, fittedSphereRadius, fittedProjectedPose, remainingEntrance } from '../src/motion.ts'
 import { Euler, Vector3 } from 'three'
 
 test('journey progress clamps overscroll and reverses along the same path', () => {
@@ -73,4 +73,11 @@ test('projected pose centers asymmetric silhouettes and fully uses the available
     const spanY = Math.max(...projected.map(p => p.y)) - Math.min(...projected.map(p => p.y))
     assert.ok(Math.max(spanX / (width - 24), spanY / (height - 24)) > .9999)
   }
+})
+
+test('layout retarget preserves entrance delay and arrival deadline', () => {
+  assert.deepEqual(remainingEntrance(1,4,.25), {delay:.75,duration:3})
+  assert.deepEqual(remainingEntrance(1,4,2), {delay:0,duration:2})
+  assert.deepEqual(remainingEntrance(1,4,5), {delay:0,duration:0})
+  assert.deepEqual(remainingEntrance(2,2,2), {delay:0,duration:0})
 })
