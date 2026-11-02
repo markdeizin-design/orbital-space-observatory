@@ -79,6 +79,6 @@ function Observatory() {
   </div>
 }
 export default function App() {
-  const path=decodeURI(window.location.pathname).replace(/\/$/,'')
+  const path=decodeURI(window.location.pathname).replace(/^\/orbital-space-observatory(?=\/|$)/,'').replace(/\/$/,'')
   return path===''?<Observatory/>:path.startsWith('/telescopes/')?<Gallery id={path.slice('/telescopes/'.length)}/>:<Gallery id="404"/>
 }
