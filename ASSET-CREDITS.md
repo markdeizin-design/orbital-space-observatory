@@ -9,13 +9,12 @@ NASA imagery and model data are generally usable for educational and factual edi
 - [NASA Images and Media Usage Guidelines](https://www.nasa.gov/nasa-brand-center/images-and-media/)
 - [STScI copyright and permissions](https://www.stsci.edu/copyright)
 
-Images are locally saved JPEG derivatives for web delivery, resized without generative changes. Telescope photographs, official computer renderings, and scientific data images are explicitly distinguished in captions. Infrared and gamma-ray imagery uses assigned colors. File names and downloads are listed below. Checked 2 November 2026.
+Images are locally saved JPEG derivatives and transparent lossless WebP spacecraft cutouts, without generative changes. Full Explorer photograph sources, dimensions and alpha-mask processing are documented in public/assets/explorer/credits.md. Telescope photographs, official computer renderings, and scientific data images are explicitly distinguished in captions. Infrared and gamma-ray imagery uses assigned colors. File names and downloads are listed below. Checked 2 November 2026.
 
 ## Local images
 
 | File | Credit | Original source and download |
 | --- | --- | --- |
-| `webb-mirror.jpg` | NASA/GSFC/Bill Hrybyk | [NASA record](https://images.nasa.gov/details/GSFC_20161102_2016-21507_012), [JPEG](https://images-assets.nasa.gov/image/GSFC_20161102_2016-21507_012/GSFC_20161102_2016-21507_012~large.jpg) |
 | `webb-cliffs.jpg` | NASA, ESA, CSA, STScI | [NASA article](https://science.nasa.gov/missions/webb/nasas-webb-reveals-cosmic-cliffs-glittering-landscape-of-star-birth/), [JPEG](https://images-assets.nasa.gov/image/carina_nebula/carina_nebula~large.jpg) |
 | `webb-deep-field.jpg` | NASA, ESA, CSA, STScI | [NASA record](https://science.nasa.gov/asset/webb/webbs-first-deep-field-unveiled-nircam-image/), [PNG](https://assets.science.nasa.gov/content/dam/science/missions/webb/science/2022/07/STScI-01G8H15R2PGEXQD7TYYBFJ3FT4.png/jcr:content/renditions/1960x2000.png) |
 | `hubble-spacecraft.jpg` | NASA | [NASA record](https://images.nasa.gov/details/GSFC_20171208_Archive_e002151), [JPEG](https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e002151/GSFC_20171208_Archive_e002151~large.jpg) |

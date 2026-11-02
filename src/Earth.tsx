@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useTexture } from '@react-three/drei'
-import { Group, Mesh, SRGBColorSpace, Vector3 } from 'three'
+import { Group, Matrix3, Mesh, SRGBColorSpace, Vector3 } from 'three'
 
 type EarthProps = { position?: [number, number, number]; scale?: number; reducedMotion?: boolean }
 
@@ -9,8 +9,10 @@ const vertex = `
 varying vec2 vUv;
 varying vec3 vNormal;
 varying vec3 vPosition;
+varying vec3 vLocalNormal;
 void main() {
   vUv = uv;
+  vLocalNormal = normalize(position);
   vNormal = normalize(mat3(modelMatrix) * normal);
   vec4 world = modelMatrix * vec4(position, 1.0);
   vPosition = world.xyz;
@@ -21,30 +23,42 @@ const surfaceFragment = `
 uniform sampler2D dayMap;
 uniform sampler2D nightMap;
 uniform sampler2D waterMask;
+uniform sampler2D cloudMap;
 uniform vec3 sunDirection;
+uniform mat3 worldToGlobe;
+uniform float cloudRotation;
 varying vec2 vUv;
 varying vec3 vNormal;
 varying vec3 vPosition;
+varying vec3 vLocalNormal;
 void main() {
   vec3 n = normalize(vNormal);
   vec3 viewDirection = normalize(cameraPosition - vPosition);
   float sun = dot(n, sunDirection);
   vec3 day = texture2D(dayMap, vUv).rgb;
   vec3 night = texture2D(nightMap, vUv).rgb;
-  float daylight = smoothstep(-0.06, 0.12, sun);
+  float daylight = smoothstep(-0.08, 0.10, sun);
   float ocean = texture2D(waterMask, vUv).r;
   float luminance = dot(day, vec3(0.2126, 0.7152, 0.0722));
   day = mix(day, vec3(luminance), 0.10 * (1.0 - ocean));
-  // NASA's base map has uniform near-black deep water; balance its blue for daylight exposure.
-  day = mix(day, vec3(0.015, 0.055, 0.13), ocean * 0.88);
-  vec3 color = day * (0.009 + max(sun, 0.0));
+  // Lift NASA's near-black water base just enough to retain deep blue under directional light.
+  day = mix(day, vec3(0.006, 0.024, 0.060), ocean * 0.68);
+  vec3 localSun = normalize(worldToGlobe * sunDirection);
+  vec3 localNormal = normalize(vLocalNormal);
+  float alongSun = dot(localNormal, localSun);
+  float cloudDistance = -alongSun + sqrt(alongSun * alongSun + 1.003 * 1.003 - 1.0);
+  vec3 cloudPoint = normalize(localNormal + cloudDistance * localSun);
+  vec2 shadowUv = vec2(fract(atan(cloudPoint.z, -cloudPoint.x) / 6.2831853 - cloudRotation / 6.2831853), asin(clamp(cloudPoint.y, -1.0, 1.0)) / 3.14159265 + 0.5);
+  float cloudShadow = smoothstep(0.08, 0.92, texture2D(cloudMap, shadowUv).r);
+  float directLight = max(sun, 0.0) * 0.90 * (1.0 - cloudShadow * 0.18);
+  vec3 color = day * (0.002 + directLight);
   float lights = smoothstep(0.02, 0.23, max(night.r, max(night.g, night.b)));
-  color += night * lights * (1.0 - daylight) * 0.65;
+  color += night * lights * (1.0 - smoothstep(-0.16, 0.02, sun)) * 0.40;
   vec3 halfDirection = normalize(sunDirection + viewDirection);
   float glint = pow(max(dot(n, halfDirection), 0.0), 28.0);
-  color += vec3(0.62, 0.75, 0.88) * glint * ocean * daylight * 0.018;
+  color += vec3(0.62, 0.75, 0.88) * glint * ocean * daylight * 0.012;
   float rim = pow(1.0 - max(dot(n, viewDirection), 0.0), 2.8);
-  color = mix(color, vec3(0.035, 0.095, 0.18), rim * daylight * 0.18);
+  color = mix(color, vec3(0.015, 0.047, 0.095), rim * daylight * 0.12);
   gl_FragColor = vec4(color, 1.0);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
@@ -59,7 +73,7 @@ varying vec3 vPosition;
 void main() {
   float density = texture2D(cloudMap, vUv).r;
   float sun = dot(normalize(vNormal), sunDirection);
-  float light = 0.018 + max(sun, 0.0) * 1.12;
+  float light = 0.003 + max(sun, 0.0) * 0.94;
   vec3 color = vec3(0.92, 0.96, 1.0) * light;
   gl_FragColor = vec4(color, smoothstep(0.04, 0.95, density) * 0.94);
   #include <tonemapping_fragment>
@@ -75,8 +89,8 @@ void main() {
   vec3 n = normalize(vNormal);
   vec3 eye = normalize(cameraPosition - vPosition);
   float rim = pow(1.0 - max(dot(n, eye), 0.0), 5.5);
-  float sun = smoothstep(-0.25, 0.65, dot(n, sunDirection));
-  gl_FragColor = vec4(vec3(0.12, 0.35, 0.66), rim * sun * 0.12);
+  float sun = smoothstep(-0.16, 0.65, dot(n, sunDirection));
+  gl_FragColor = vec4(vec3(0.08, 0.24, 0.48), rim * sun * 0.14);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
 }`
@@ -95,19 +109,25 @@ export default function Earth({ position = [0, 0, 0], scale = 1, reducedMotion =
   const uniforms = useMemo(() => {
     day.colorSpace = night.colorSpace = SRGBColorSpace
     day.anisotropy = cloud.anisotropy = water.anisotropy = 8
-    const sunDirection = { value: new Vector3(-0.35, 0.5, 1).normalize() }
+    const sunDirection = { value: new Vector3(-0.45, 0.8, 0.1).normalize() }
     return {
-      surface: { dayMap: { value: day }, nightMap: { value: night }, waterMask: { value: water }, sunDirection },
+      surface: { dayMap: { value: day }, nightMap: { value: night }, waterMask: { value: water }, cloudMap: { value: cloud }, sunDirection, worldToGlobe: { value: new Matrix3() }, cloudRotation: { value: 0 } },
       clouds: { cloudMap: { value: cloud }, sunDirection },
       atmosphere: { sunDirection },
     }
   }, [day, night, cloud, water])
 
   useFrame((_, delta) => {
-    if (reducedMotion) return
     const step = Math.min(delta, 0.05)
-    if (globe.current) globe.current.rotation.y += step * 0.008
-    if (clouds.current) clouds.current.rotation.y += step * 0.002
+    if (!reducedMotion) {
+      if (globe.current) globe.current.rotation.y += step * 0.008
+      if (clouds.current) clouds.current.rotation.y += step * 0.002
+    }
+    if (globe.current) {
+      globe.current.updateWorldMatrix(true, false)
+      uniforms.surface.worldToGlobe.value.setFromMatrix4(globe.current.matrixWorld).invert()
+      uniforms.surface.cloudRotation.value = clouds.current?.rotation.y ?? 0
+    }
   })
 
   return (

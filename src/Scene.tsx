@@ -6,8 +6,13 @@ import gsap from 'gsap'
 import Earth from './Earth'
 import Cosmos from './Cosmos'
 import { missions } from './missions'
+import { fittedProjectedPose } from './motion'
+import hulls from './model-hulls.json'
 
-type SceneProps = { selected: number; progress: React.RefObject<number>; reset: number; reduced: boolean; skipIntro: boolean; onReady: () => void }
+const modelOrientations: [number,number,number][] = [[.22,-1.12,.12],[.3,-.5,-.55],[.7,Math.PI/2,-.25]]
+
+export type ModelStage = { left: number; top: number; width: number; height: number }
+type SceneProps = { selected: number; progress: React.RefObject<number>; reset: number; reduced: boolean; stage: ModelStage; onReady: () => void; onSettled: (index:number) => void }
 
 class SceneBoundary extends Component<{children: ReactNode}, {error: boolean}> {
   state = {error: false}
@@ -25,13 +30,13 @@ function Starfield({reduced}: {reduced:boolean}) {
   const geometry = useMemo(() => {
     let seed = 42
     const rand = () => {seed=(seed*16807)%2147483647; return (seed-1)/2147483646}
-    const count = 6500, positions = new Float32Array(count*3), colors = new Float32Array(count*3), sizes = new Float32Array(count)
+    const count = 4300, positions = new Float32Array(count*3), colors = new Float32Array(count*3), sizes = new Float32Array(count)
     for(let i=0;i<count;i++) {
       const theta=rand()*Math.PI*2, z=rand()*2-1, r=45+rand()*100, v=Math.sqrt(1-z*z)
       positions.set([Math.cos(theta)*v*r,z*r,Math.sin(theta)*v*r],i*3)
-      const temperature = rand(), intensity=.3+Math.pow(rand(),4)*1.8
+      const temperature = rand(), intensity=.2+Math.pow(rand(),5)*1.4
       colors.set([intensity*(temperature>.8?1:.8),intensity*.88,intensity*(temperature<.2?1.15:.95)],i*3)
-      sizes[i] = .55 + Math.pow(rand(),10)*3.5
+      sizes[i] = .45 + Math.pow(rand(),10)*2.8
     }
     const g = new THREE.BufferGeometry()
     g.setAttribute('position',new THREE.BufferAttribute(positions,3)); g.setAttribute('color',new THREE.BufferAttribute(colors,3)); g.setAttribute('size',new THREE.BufferAttribute(sizes,1))
@@ -42,38 +47,51 @@ function Starfield({reduced}: {reduced:boolean}) {
   return <points ref={ref} geometry={geometry}><shaderMaterial transparent depthWrite={false} vertexColors blending={THREE.AdditiveBlending} vertexShader={`attribute float size; varying vec3 vColor; void main(){vColor=color;vec4 mv=modelViewMatrix*vec4(position,1.);gl_PointSize=size*2.;gl_Position=projectionMatrix*mv;}`} fragmentShader={`varying vec3 vColor;void main(){float r=length(gl_PointCoord-.5);float a=exp(-r*r*130.)+exp(-r*r*15.)*.16;gl_FragColor=vec4(vColor,a);}`} /></points>
 }
 
-function Telescope({index,selected,reset,reduced,skipIntro}: {index:number;selected:number;reset:number;reduced:boolean;skipIntro:boolean}) {
+function Telescope({index,selected,reset,reduced,stage,onSettled}: SceneProps & {index:number}) {
   const {scene} = useGLTF(missions[index].model, '/assets/draco/')
-  const {viewport} = useThree()
-  const outer = useRef<THREE.Group>(null!), pivot=useRef<THREE.Group>(null!)
+  const {viewport,size} = useThree()
+  const outer = useRef<THREE.Group>(null!), offset=useRef<THREE.Group>(null!), pivot=useRef<THREE.Group>(null!), model=useRef<THREE.Group>(null!)
+  const scale=useRef(0)
+  const hull=useMemo(()=>hulls[missions[index].id].points.map(p=>new THREE.Vector3(...p as [number,number,number])),[index])
+  const rotatedHull=useMemo(()=>hull.map(p=>p.clone()),[hull])
+  const rotation=useMemo(()=>new THREE.Quaternion(),[])
   const velocity=useRef(new THREE.Vector2()), pointer=useRef<{x:number;y:number}|null>(null)
-  const first=useRef(true)
-  const mobile=viewport.width<9
+  const first=useRef(true),lastSelection=useRef(-1)
   const normalized = useMemo(()=>{
-    const clone=scene.clone(true), box=new THREE.Box3().setFromObject(clone), size=box.getSize(new THREE.Vector3()), center=box.getCenter(new THREE.Vector3())
-    clone.position.sub(center)
-    const wrapper=new THREE.Group(); wrapper.add(clone);wrapper.scale.setScalar(1/Math.max(size.x,size.y,size.z))
+    const clone=scene.clone(true), sphere=new THREE.Box3().setFromObject(clone).getBoundingSphere(new THREE.Sphere())
+    clone.position.sub(sphere.center)
+    const wrapper=new THREE.Group(); wrapper.add(clone);wrapper.scale.setScalar(1/sphere.radius)
     return wrapper
   },[scene])
-  const x=mobile ? -viewport.width*.12 : -viewport.width*.19
-  const y=mobile ? -1.05 : -.55
-  const modelScale=(mobile?viewport.width*.95:viewport.width*.4)*(index===0?(mobile?1.05:.92):1)
+  const x=((stage.left+stage.width/2)/size.width-.5)*viewport.width
+  const y=(.5-(stage.top+stage.height/2)/size.height)*viewport.height
   useEffect(()=>{
     const group=outer.current
-    const immediate=reduced||(first.current&&skipIntro)
+    const selectionChanged=lastSelection.current!==selected
+    lastSelection.current=selected
+    const delay=first.current?1.1:.45
+    if(first.current)group.position.y=y
     first.current=false
     gsap.killTweensOf(group.position);gsap.killTweensOf(group.rotation)
+    if(!selectionChanged){
+      group.position.set(index===selected?x:-viewport.width*1.3,y,0)
+      group.rotation.set(0,0,0)
+      group.visible=index===selected
+      if(index===selected)onSettled(index)
+      return
+    }
     if(index===selected) {
+      group.visible=true
       if(group.position.x < -viewport.width*.6)group.rotation.set(0,-.2,.1)
-      gsap.to(group.position,{x,y,duration:immediate?0:2.5,delay:immediate?0:.45,ease:'power3.out'})
-      gsap.to(group.rotation,{x:0,y:0,z:0,duration:immediate?0:2.8,ease:'power2.out'})
-    } else gsap.to(group.position,{x:-viewport.width*1.3,duration:reduced?0:1,ease:'power2.inOut'})
+      gsap.to(group.position,{x,y,duration:reduced?0:3,delay:reduced?0:delay,ease:'power3.out',onComplete:()=>onSettled(index)})
+      gsap.to(group.rotation,{x:0,y:0,z:0,duration:reduced?0:3,delay:reduced?0:delay,ease:'power2.out'})
+    } else gsap.to(group.position,{x:-viewport.width*1.3,duration:reduced?0:1,ease:'power2.inOut',onComplete:()=>{group.visible=false}})
     return ()=>{gsap.killTweensOf(group.position);gsap.killTweensOf(group.rotation)}
-  },[selected,index,mobile,viewport.width,reduced,x,y])
+  },[selected,index,viewport.width,reduced,x,y,onSettled])
   useEffect(()=>{
     velocity.current.set(0,0);pointer.current=null
   },[selected])
-  useEffect(()=>{if(index===selected)pivot.current.rotation.set(0,0,0)},[reset])
+  useEffect(()=>{if(index===selected){pivot.current.rotation.set(0,0,0);velocity.current.set(0,0)}},[reset])
   useEffect(()=>{
     if(index!==selected)return
     const zone=document.getElementById('model-interaction')
@@ -88,35 +106,43 @@ function Telescope({index,selected,reset,reduced,skipIntro}: {index:number;selec
   useFrame((state,dt)=>{
     if(index!==selected)return
     if(!pointer.current){velocity.current.multiplyScalar(reduced?0:Math.exp(-dt*5));pivot.current.rotation.y+=velocity.current.x*dt*40;pivot.current.rotation.x+=velocity.current.y*dt*40}
-    if(!reduced) outer.current.position.y=y+Math.sin(state.clock.elapsedTime*.22)*.045
+    rotation.copy(outer.current.quaternion).multiply(pivot.current.quaternion).multiply(model.current.quaternion)
+    for(let i=0;i<hull.length;i++)rotatedHull[i].copy(hull[i]).applyQuaternion(rotation)
+    const pose=fittedProjectedPose(rotatedHull,stage.width,stage.height,viewport.height/size.height,x,y)
+    scale.current=scale.current===0||pose.scale<scale.current?pose.scale:THREE.MathUtils.damp(scale.current,pose.scale,8,dt)
+    model.current.scale.setScalar(scale.current)
+    offset.current.position.set(pose.x-x,pose.y-y,0)
   })
   // shortcut: NASA assets are normalized independently; preserve model details instead of rebuilding hardware.
-  const orientations: [number,number,number][] = [[.15,-Math.PI/2,-.2],[.3,-.5,-.55],[.7,Math.PI/2,-.25]]
-  return <group ref={outer} position={[-30,y,0]}><group ref={pivot}><group rotation={orientations[index]} scale={modelScale}><primitive object={normalized}/></group></group></group>
+  return <group ref={outer} position={[-30,0,0]}><group ref={offset}><group ref={pivot}><group ref={model} rotation={modelOrientations[index]}><primitive object={normalized}/></group></group></group></group>
 }
 
 function World(props:SceneProps) {
-  const {camera,viewport} = useThree()
+  const {camera,viewport,size} = useThree()
   const world=useRef<THREE.Group>(null!), earth=useRef<THREE.Group>(null!)
   const smoothProgress=useRef(0)
-  const mobile=viewport.width<9
+  const mobile=size.width<=650
   useEffect(()=>{props.onReady()},[props.onReady])
   useFrame((state,dt)=>{
     smoothProgress.current=THREE.MathUtils.damp(smoothProgress.current,props.progress.current,props.reduced?100:5,dt)
     const p=props.reduced?0:smoothProgress.current
-    world.current.position.set(-p*3,p*2,-p*14)
-    earth.current.position.set(viewport.width*.36+p*viewport.width, -viewport.height*.16-p*3,-2-p*7)
-    camera.position.x=THREE.MathUtils.damp(camera.position.x,(!props.reduced?state.pointer.x*.07:0)+p*.7,3,dt)
-    camera.position.y=THREE.MathUtils.damp(camera.position.y,(!props.reduced?state.pointer.y*.04:0)+p*.3,3,dt)
-    camera.position.z=10+p*9
-    camera.lookAt(0,0,-p*5)
+    const departure=THREE.MathUtils.smoothstep(p,0,.65)
+    world.current.position.set(-departure*viewport.width*2,departure*1.8,-departure*14)
+    world.current.rotation.set(departure*.12,-departure*.35,-departure*.18)
+    earth.current.position.set(viewport.width*(mobile?.68:.62)+p*viewport.width*2.8, -viewport.height*(mobile?.38:.25)-p*3,-4-p*7)
+    camera.position.x=THREE.MathUtils.damp(camera.position.x,(!props.reduced?state.pointer.x*.035:0)+Math.sin(p*Math.PI)*1.5,3,dt)
+    camera.position.y=THREE.MathUtils.damp(camera.position.y,(!props.reduced?state.pointer.y*.025:0)+Math.sin(p*Math.PI)*.75,3,dt)
+    camera.position.z=10+p*14
+    const bank=Math.sin(p*Math.PI)*.055
+    camera.up.set(Math.sin(bank),Math.cos(bank),0)
+    camera.lookAt(-p*.5,p*.3,-p*7)
   })
   return <>
     <Cosmos reduced={props.reduced}/>
     <Starfield reduced={props.reduced}/>
     <ambientLight intensity={.35}/><directionalLight position={[-5,6,8]} intensity={3.4} color="#ffefd9"/><directionalLight position={[5,-2,-5]} intensity={1.8} color="#92b9dd"/>
     <Environment resolution={128} frames={1}><Lightformer form="rect" intensity={1.3} color="#e2e9ec" position={[0,0,8]} scale={[18,12,1]}/><Lightformer form="rect" intensity={3} position={[-4,5,4]} scale={[8,5,1]}/><Lightformer form="rect" intensity={1.5} color="#8baec8" position={[5,0,-4]} scale={[4,7,1]}/><Lightformer form="rect" intensity={2} position={[0,-5,2]} scale={[5,2,1]}/></Environment>
-    <group ref={earth}><Earth scale={mobile?viewport.width*.51:viewport.height*.5} reducedMotion={props.reduced}/></group>
+    <group ref={earth}><Earth scale={mobile?viewport.width*.95:viewport.height*.78} reducedMotion={props.reduced}/></group>
     <group ref={world}>{missions.map((_,index)=><Telescope key={index} {...props} index={index}/>)}</group>
     <AdaptiveDpr pixelated/>
   </>

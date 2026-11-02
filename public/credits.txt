@@ -1,10 +1,8 @@
 ORBITAL — PUBLIC CREDITS
-Independent educational exhibition. No affiliation with or endorsement by NASA, ESA, CSA, STScI, Google, IBM or mission partners.
+Independent educational exhibition. No affiliation with or endorsement by NASA or mission partners.
 
 
-========================================================================
-ASSET-CREDITS.md
-========================================================================
+======== ASSET-CREDITS.md ========
 
 # ORBITAL — sources and credits
 
@@ -17,13 +15,12 @@ NASA imagery and model data are generally usable for educational and factual edi
 - [NASA Images and Media Usage Guidelines](https://www.nasa.gov/nasa-brand-center/images-and-media/)
 - [STScI copyright and permissions](https://www.stsci.edu/copyright)
 
-Images are locally saved JPEG derivatives for web delivery, resized without generative changes. Telescope photographs, official computer renderings, and scientific data images are explicitly distinguished in captions. Infrared and gamma-ray imagery uses assigned colors. File names and downloads are listed below. Checked 2 November 2026.
+Images are locally saved JPEG derivatives and transparent lossless WebP spacecraft cutouts, without generative changes. Full Explorer photograph sources, dimensions and alpha-mask processing are documented in public/assets/explorer/credits.md. Telescope photographs, official computer renderings, and scientific data images are explicitly distinguished in captions. Infrared and gamma-ray imagery uses assigned colors. File names and downloads are listed below. Checked 2 November 2026.
 
 ## Local images
 
 | File | Credit | Original source and download |
 | --- | --- | --- |
-| `webb-mirror.jpg` | NASA/GSFC/Bill Hrybyk | [NASA record](https://images.nasa.gov/details/GSFC_20161102_2016-21507_012), [JPEG](https://images-assets.nasa.gov/image/GSFC_20161102_2016-21507_012/GSFC_20161102_2016-21507_012~large.jpg) |
 | `webb-cliffs.jpg` | NASA, ESA, CSA, STScI | [NASA article](https://science.nasa.gov/missions/webb/nasas-webb-reveals-cosmic-cliffs-glittering-landscape-of-star-birth/), [JPEG](https://images-assets.nasa.gov/image/carina_nebula/carina_nebula~large.jpg) |
 | `webb-deep-field.jpg` | NASA, ESA, CSA, STScI | [NASA record](https://science.nasa.gov/asset/webb/webbs-first-deep-field-unveiled-nircam-image/), [PNG](https://assets.science.nasa.gov/content/dam/science/missions/webb/science/2022/07/STScI-01G8H15R2PGEXQD7TYYBFJ3FT4.png/jcr:content/renditions/1960x2000.png) |
 | `hubble-spacecraft.jpg` | NASA | [NASA record](https://images.nasa.gov/details/GSFC_20171208_Archive_e002151), [JPEG](https://images-assets.nasa.gov/image/GSFC_20171208_Archive_e002151/GSFC_20171208_Archive_e002151~large.jpg) |
@@ -50,32 +47,31 @@ Images are locally saved JPEG derivatives for web delivery, resized without gene
 Hubble and Fermi are in low Earth orbit. Webb is on a halo orbit around Sun–Earth L2; the Earth in the opening scene is a compositional element, not a to-scale orbital diagram. Exact present-day low-orbit altitudes are deliberately omitted because orbital decay changes them.
 
 
-========================================================================
-credits.md
-========================================================================
+======== public/assets/earth/credits.md ========
 
 # Earth texture sources
 
-- `day.jpg`: NASA Blue Marble Next Generation, January, with topography and bathymetry. Original 5400 × 2700 reduced to 4096 × 2048, JPEG quality 91. NASA Earth Observatory. [Source image](https://assets.science.nasa.gov/content/dam/science/esd/eo/images/bmng/bmng-topography-bathymetry/january/world.topo.bathy.200401.3x5400x2700.jpg). [Dataset and credit](https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/base-topography-bathymetry/). Credit: NASA Earth Observatory; Reto Stöckli, NASA Goddard Space Flight Center; topography/bathymetry GEBCO.
+- `day.jpg`: NASA Blue Marble Next Generation, January 2004, natural-color base map without added topographic or bathymetric shading. Original 21600 × 10800 reduced to 8192 × 4096, JPEG quality 87 (3.46 MB). [Source image](https://assets.science.nasa.gov/content/dam/science/esd/eo/images/bmng/bmng-base/january/world.200401.3x21600x10800.jpg). [Dataset](https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/base-map/). Credit: Reto Stöckli, NASA Earth Observatory (NASA Goddard Space Flight Center). NASA notes that deep ocean regions in this composite use a uniform blue base; the shader balances that near-black blue for the exhibition's daylight exposure while preserving continental detail. This is not a live photograph or current weather.
 - `night.jpg`: NASA Earth Observatory, Black Marble 2016, 3600 × 1800. Re-encoded as JPEG quality 90. [Source image](https://assets.science.nasa.gov/content/dam/science/esd/eo/images/imagerecords/144000/144898/BlackMarble_2016_01deg.jpg). [Source record](https://science.nasa.gov/earth/earth-observatory/earth-at-night/maps/). Credit: NASA Earth Observatory images by Joshua Stevens, using Suomi NPP VIIRS data from Miguel Román, NASA Goddard Space Flight Center.
-- `clouds.jpg`: NASA Blue Marble cloud composite, 2048 × 1024, retained unchanged. [Source image](https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57747/cloud_combined_2048.jpg). Credit: NASA Goddard Space Flight Center; Reto Stöckli, enhancements Robert Simmon. This is an archival composite, not current weather.
+- `clouds.jpg`: NASA Blue Marble cloud composite. Original 8192 × 4096 TIFF converted to grayscale, reduced to 4096 × 2048 and JPEG quality 91. [Source image](https://eoimages.gsfc.nasa.gov/images/imagerecords/57000/57747/cloud_combined_8192.tif). Credit: NASA Goddard Space Flight Center; Reto Stöckli, enhancements Robert Simmon. This archival composite is a real satellite-derived cloud distribution, not current weather; it is rendered on a separate rotating transparent sphere.
+- `day-4k.jpg` (4096 × 2048) and `clouds-2k.jpg` (2048 × 1024): compact derivatives of the above day/cloud textures, resized with Lanczos filtering and JPEG quality 90. The same NASA sources and credits apply. Selected once on scene mount for viewports narrower than 700 pixels or devices whose maximum texture size is below 8192; resizing does not trigger another texture download.
+- `water-mask.png` (4096 × 2048): dedicated NASA Blue Marble land/sea mask, converted to white water/black land with 0.45-pixel edge softening to avoid aliasing. [Source PNG](https://svs.gsfc.nasa.gov/vis/a000000/a003400/a003487/landmask4K.png). [NASA SVS source record](https://svs.gsfc.nasa.gov/3487/), which identifies it as the land/sea mask matching the Blue Marble map. Credit: NASA/Goddard Space Flight Center Scientific Visualization Studio; Blue Marble Next Generation data courtesy of Reto Stöckli (NASA/GSFC) and NASA Earth Observatory. Used as a linear data texture, not a color image.
 
 NASA describes these Blue Marble images as freely available to educators, scientists, museums and the public: [Blue Marble source and credit](https://science.nasa.gov/earth/earth-observatory/the-blue-marble-true-color-global-imagery-at-1km-resolution/). [NASA image/media usage guidelines](https://www.nasa.gov/nasa-brand-center/images-and-media/). This independent educational project is not endorsed by NASA. No NASA insignia used for branding.
 
-The scene's lighting, relative sizes, rotation speed and positioning are exhibition choices rather than a calibrated physical simulation. The ocean glint mask is derived from blue surface pixels; use a dedicated land/water mask for a closer inspection view.
+The scene's lighting, relative sizes, rotation speed and positioning are exhibition choices rather than a calibrated physical simulation. Deep ocean blue is balanced for daylight exposure using the dedicated NASA land/sea mask; continental saturation is reduced 10% and a subtle view-dependent blue haze represents aerial perspective near the limb.
 
 
-========================================================================
-CREDITS.txt
-========================================================================
+======== public/assets/models/CREDITS.txt ========
 
 ORBITAL telescope models
 
 James Webb Space Telescope (A): NASA/Goddard Space Flight Center
 https://science.nasa.gov/3d-resources/james-webb-space-telescope-a/
 
-Hubble Space Telescope (A): DigitalSpace Corporation, distributed by NASA 3D Resources
-https://science.nasa.gov/3d-resources/hubble-space-telescope-a/
+Hubble Space Telescope: NASA Visualization Technology Applications and Development (VTAD)
+https://science.nasa.gov/resource/hubble-space-telescope-3d-model-2/
+Original Hubble PBR materials and photo textures preserved.
 
 Fermi Gamma-ray Large Area Space Telescope: NASA/Christopher R. Meaney
 https://science.nasa.gov/3d-resources/fermi-gamma-ray-large-area-space-telescope/
@@ -93,27 +89,71 @@ These are educational visualization models, not engineering CAD or measured BRDF
 This independent project is not affiliated with or endorsed by NASA.
 
 
-========================================================================
+======== public/assets/space/credits.md ========
+
+# Distant space backdrop
+
+The bright Milky Way panorama is no longer rendered. The current backdrop combines generated 3D star positions with two dimmed, feathered observational nebula images. Their placement is artistic, not a map of sky coordinates.
+
+- `nebula-orion.jpg`: Hubble's sharpest view of the Orion Nebula, heic0601a. Credit: NASA, ESA, M. Robberto (Space Telescope Science Institute/ESA) and the Hubble Space Telescope Orion Treasury Project Team. Source: https://esahubble.org/images/heic0601a/
+- `nebula-carina.jpg`: Star birth in the extreme, heic0707a. Credit: NASA, ESA, N. Smith (University of California, Berkeley), and The Hubble Heritage Team (STScI/AURA). Source: https://esahubble.org/images/heic0707a/
+
+Modifications: resized for web delivery, opacity feathered, saturation and brightness reduced in the renderer. Original image structure is retained; no generative edits. ESA/Hubble reuse conditions: https://esahubble.org/copyright/ . This independent exhibition does not imply agency endorsement.
+
+
+======== public/assets/explorer/credits.md ========
+
+# Explorer photographs and alpha cutouts
+
+All three photographs show real NASA flight hardware. No renders, generated spacecraft, generative fill, upscaling, recoloring, relighting, or replacement geometry were used. The masters change the alpha channel only. Every surviving RGB pixel was compared exactly with its decoded NASA original after a lossless WebP roundtrip.
+
+## Delivery and resolution
+
+`*-cutout.webp` is the native-resolution, lossless alpha master. `*-preview.webp` is a separate responsive display derivative, at most 960 pixels on its long side, encoded at quality 92. Transparent outer padding is trimmed to the alpha bounds plus approximately 2% margin; no hardware pixels were rescaled in the masters. `metadata.json` records exact source dimensions, crop bounds, master dimensions, display dimensions, and file sizes.
+
+Source canvas dimensions are not the same as spacecraft detail resolution. Hubble's 7000-pixel source contains large black margins; its cutout is approximately 3536 × 2871. Fermi's 3008-pixel source contains a cleanroom around the spacecraft; its cutout is 1394 × 1676. Webb's cutout is 4111 × 5043 and preserves over 4K of native pictured hardware detail. Do not label every cutout 4K.
+
+The unchanged source downloads are stored outside the public website in `work/photo-candidates/originals/`; the selected new Webb original is `work/photo-candidates/webb-stowed-2.jpg`.
+
+## Hubble
+
+- Files: `hubble-cutout.webp`, `hubble-preview.webp`.
+- Original: 7000 × 3520, NASA; STS-125 crew, May 19, 2009.
+- [Official image record: Bidding Hubble Farewell After Servicing Mission 4](https://science.nasa.gov/asset/hubble/bidding-hubble-farewell-after-servicing-mission-4-2009/).
+- [Exact original PNG](https://assets.science.nasa.gov/content/dam/science/missions/hubble/servicing-missions/sm4/STScI-01EVVGK15N8BAA1DNZG29HV097.png).
+- Suggested caption: **Hubble, photographed by the STS-125 crew after Servicing Mission 4, 2009. NASA.**
+- Matte: measured black-space edge, manually constrained solid shadow regions, and low-threshold detail masks around dark solar arrays and dishes. The aperture door, arrays, antenna dishes and slender antenna masts are retained. No artificial highlights or decontamination changed the photographic RGB values.
+
+## James Webb
+
+- Files: `webb-cutout.webp`, `webb-preview.webp`.
+- Original: 8258 × 6200, NASA/Chris Gunn, September 2020; article published October 6, 2020.
+- [Official article: NASA's James Webb Space Telescope Completes Environmental Testing](https://www.nasa.gov/solar-system/nasas-james-webb-space-telescope-completes-environmental-testing/).
+- [Exact original JPEG](https://www.nasa.gov/wp-content/uploads/2020/12/fullobervatoryliftsmgunnsept2020.jpg).
+- Suggested caption: **Webb in its fully stowed ground-test configuration, 2020. NASA/Chris Gunn.**
+- The real, fully assembled flight observatory is shown folded for environmental testing, not deployed in space. All pictured spacecraft hardware fits inside the source frame. The cleanroom, crane frame, hoist lines, ground clamps and transport supports have been excluded with a hand-traced alpha mask. No hidden parts were reconstructed. Original reflections in the gold mirror, including reflected cleanroom lighting, remain photographic pixels.
+- The previously considered `finalsunshielddeploy6gunn.jpg` was rejected as an Explorer cutout because the source frame already crops the sunshield. It remains suitable only as a correctly captioned full photographic document, not a complete isolated spacecraft.
+
+## Fermi (GLAST before launch)
+
+- Files: `fermi-cutout.webp`, `fermi-preview.webp`.
+- Original: 2000 × 3008, NASA/Jim Grossmann, 2008; NASA identifier `KSC-08pd1359`.
+- [NASA image record](https://images.nasa.gov/details/KSC-08pd1359).
+- [Exact original JPEG](https://images-assets.nasa.gov/image/KSC-08pd1359/KSC-08pd1359~orig.jpg).
+- Suggested caption: **Fermi / GLAST during ground processing, with solar arrays folded, 2008. NASA/Jim Grossmann.**
+- This is a real photograph in the Astrotech processing facility, not a deployed-spacecraft render. The surrounding personnel, floor, circular processing stand, outer suspension lines and external beam protrusions have been excluded by a hand-traced alpha mask. An upper handling beam and hook that actually occlude flight hardware remain visible within the photographed body: removing them would require inventing the hidden hardware pixels. Do not imply this is an unoccluded in-orbit portrait.
+- The user approved the honest approximately 3K original alternative. Official originals `KSC-08pd0644`, `KSC-08pd0653`, `KSC-08pd1033` and `KSC-08pd1358` were also checked and are about 3000 pixels on the long side. No genuine qualifying 4K photograph of the full deployed spacecraft was located. No enlargement is presented as native detail.
+
+## Usage and inspection
+
+NASA factual educational imagery can generally be reused with acknowledgement and without implied endorsement. Retain the photographer and mission credits and identify alpha masking and cropping. This independent exhibition is not affiliated with or endorsed by NASA or its partners. [NASA media usage guidance](https://www.nasa.gov/nasa-brand-center/images-and-media/).
+
+All masters decode successfully. Alpha edges were visually inspected on dark and light backgrounds; native surviving RGB values were verified byte for byte. Edge antialiasing changes alpha only. Previews are intentionally reduced display derivatives. Research and processing date: November 2, 2026.
+
+
+
 FONT AND DECODER LICENSES
-========================================================================
+Manrope: Mikhail Sharanda and Mirko Velimirovic. IBM Plex Mono: IBM. SIL Open Font License 1.1.
+Full notices: assets/fonts/Manrope-OFL.txt and assets/fonts/IBM-Plex-Mono-OFL.txt.
+Google Draco: Copyright 2016 The Draco Authors. Apache 2.0, assets/draco/LICENSE.txt.
 
-Manrope by Mikhail Sharanda and Mirko Velimirovic; IBM Plex Mono by IBM.
-Locally served, unmodified Google Fonts WOFF2 subsets (Latin and Cyrillic).
-Manrope variable weight range 200–800; IBM Plex Mono weights 400 and 500.
-SIL Open Font License 1.1; complete notices:
-/assets/fonts/Manrope-OFL.txt
-/assets/fonts/IBM-Plex-Mono-OFL.txt
-https://github.com/google/fonts/tree/main/ofl/manrope
-https://github.com/google/fonts/tree/main/ofl/ibmplexmono
-https://fonts.google.com/specimen/Manrope
-https://fonts.google.com/specimen/IBM+Plex+Mono
-
-Google Draco mesh decoder, Apache License 2.0.
-Copyright 2016 The Draco Authors.
-Local complete license: /assets/draco/LICENSE.txt
-Upstream project: https://github.com/google/draco
-The decoder is supplied locally with this site; no remote decoder CDN is used.
-
-All linked source records and credit lines are retained for factual attribution.
-Scientific color maps and spacecraft renders are labeled as such in the exhibit.
-The scene is an artistic educational visualization, not an orbital simulator.

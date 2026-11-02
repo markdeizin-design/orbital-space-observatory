@@ -1,0 +1,74 @@
+{
+  "hubble": {
+    "width": 3536,
+    "height": 2871,
+    "previewWidth": 960,
+    "previewHeight": 779,
+    "sourceWidth": 7000,
+    "sourceHeight": 3520,
+    "cropBox": [
+      1785,
+      333,
+      5321,
+      3204
+    ],
+    "alphaBoundsInSource": [
+      1853,
+      401,
+      5253,
+      3136
+    ],
+    "masterBytes": 7274142,
+    "previewBytes": 185106,
+    "mask": "measured black-space alpha with manually constrained solid metallic shadow regions and dark-hardware edge mattes",
+    "validation": "visible RGB exact match to decoded NASA original; lossless WebP roundtrip"
+  },
+  "fermi": {
+    "width": 1394,
+    "height": 1676,
+    "previewWidth": 798,
+    "previewHeight": 960,
+    "sourceWidth": 2000,
+    "sourceHeight": 3008,
+    "cropBox": [
+      342,
+      295,
+      1736,
+      1971
+    ],
+    "alphaBoundsInSource": [
+      374,
+      327,
+      1704,
+      1939
+    ],
+    "masterBytes": 1754964,
+    "previewBytes": 188496,
+    "mask": "manual exterior alpha; Hubble measured black-space edge plus solid internal shadows",
+    "validation": "visible RGB exact match to decoded NASA original; lossless WebP roundtrip"
+  },
+  "webb": {
+    "width": 4111,
+    "height": 5043,
+    "previewWidth": 783,
+    "previewHeight": 960,
+    "sourceWidth": 8258,
+    "sourceHeight": 6200,
+    "cropBox": [
+      2169,
+      906,
+      6280,
+      5949
+    ],
+    "alphaBoundsInSource": [
+      2266,
+      1003,
+      6183,
+      5852
+    ],
+    "masterBytes": 15579620,
+    "previewBytes": 244422,
+    "mask": "manual exterior alpha; Hubble measured black-space edge plus solid internal shadows",
+    "validation": "visible RGB exact match to decoded NASA original; lossless WebP roundtrip"
+  }
+}

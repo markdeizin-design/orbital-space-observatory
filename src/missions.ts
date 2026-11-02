@@ -25,6 +25,9 @@ export interface Mission {
   source: string
   model: string
   image: string
+  photoCaption: string
+  photoCredit: string
+  photoSource: string
   images: MissionImage[]
 }
 
@@ -48,7 +51,10 @@ export const missions: Mission[] = [
     achievement: 'В 2022 году Webb обнаружил ясный спектральный след углекислого газа в атмосфере WASP-39 b. Его первые глубокие поля показали тысячи галактик и действие гравитационного линзирования.',
     source: 'https://science.nasa.gov/mission/webb/',
     model: '/assets/models/james-webb.glb',
-    image: '/assets/images/webb-mirror.jpg',
+    image: '/assets/explorer/webb-cutout.webp',
+    photoCaption: 'Аппарат в сложенной конфигурации · наземные испытания, 2020',
+    photoCredit: 'NASA/Chris Gunn',
+    photoSource: 'https://www.nasa.gov/solar-system/nasas-james-webb-space-telescope-completes-environmental-testing/',
     images: [
       {
         src: '/assets/images/webb-cliffs.jpg',
@@ -59,12 +65,12 @@ export const missions: Mission[] = [
         kind: 'НАУЧНОЕ ИЗОБРАЖЕНИЕ · NIRCAM',
       },
       {
-        src: '/assets/images/webb-mirror.jpg',
-        title: 'Зеркало до старта',
-        caption: 'Техническая фотография: раскрытое главное зеркало Webb в Центре космических полётов Годдарда, 2 ноября 2016 года. Золотое покрытие помогает отражать инфракрасный свет.',
-        credit: 'NASA/GSFC/Bill Hrybyk',
-        source: 'https://images.nasa.gov/details/GSFC_20161102_2016-21507_012',
-        kind: 'ФОТОГРАФИЯ АППАРАТА · 2016',
+        src: '/assets/explorer/webb-cutout.webp',
+        title: 'Перед полётом',
+        caption: 'Настоящая фотография Webb после испытаний на Земле в 2020 году. Телескоп сложен для запуска. Фон удалён маской; детали аппарата сохранены без генерации и увеличения исходного разрешения.',
+        credit: 'NASA/Chris Gunn',
+        source: 'https://www.nasa.gov/solar-system/nasas-james-webb-space-telescope-completes-environmental-testing/',
+        kind: 'ФОТОГРАФИЯ АППАРАТА · 2020',
       },
       {
         src: '/assets/images/webb-deep-field.jpg',
@@ -95,7 +101,10 @@ export const missions: Mission[] = [
     achievement: 'Наблюдения Hubble вместе с наземными обсерваториями помогли установить ускорение расширения Вселенной. Глубокие поля телескопа раскрыли множество галактик в крошечных участках неба.',
     source: 'https://science.nasa.gov/mission/hubble/observatory/',
     model: '/assets/models/hubble.glb',
-    image: '/assets/images/hubble-spacecraft.jpg',
+    image: '/assets/explorer/hubble-cutout.webp',
+    photoCaption: 'После последней миссии обслуживания · STS-125, 2009',
+    photoCredit: 'NASA / STS-125',
+    photoSource: 'https://science.nasa.gov/asset/hubble/bidding-hubble-farewell-after-servicing-mission-4-2009/',
     images: [
       {
         src: '/assets/images/hubble-pillars.jpg',
@@ -142,7 +151,10 @@ export const missions: Mission[] = [
     achievement: 'В 2010 году данные LAT выявили пузыри Ферми — гигантские области гамма-излучения над и под плоскостью Млечного Пути. В 2017 году GBM зарегистрировал всплеск, связанный со слиянием нейтронных звёзд GW170817.',
     source: 'https://science.nasa.gov/mission/fermi/',
     model: '/assets/models/fermi.glb',
-    image: '/assets/images/fermi-spacecraft.jpg',
+    image: '/assets/explorer/fermi-cutout.webp',
+    photoCaption: 'Подготовка к запуску · сложенные панели и монтажная оснастка, 2008',
+    photoCredit: 'NASA/Jim Grossmann',
+    photoSource: 'https://images.nasa.gov/details/KSC-08pd1359',
     images: [
       {
         src: '/assets/images/fermi-sky.jpg',

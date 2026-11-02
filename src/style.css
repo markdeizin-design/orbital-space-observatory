@@ -13,3 +13,34 @@
 
 .sky-credit{position:absolute;right:5%;top:4%;font:6px 'IBM Plex Mono',monospace;letter-spacing:.06em;color:#b6c6d2;text-shadow:0 1px 8px #000}@media(max-width:650px){.sky-credit{top:40%;right:6%;font-size:5px}}
 
+/* The model stage follows the measured text height, leaving room for every orientation. */
+.observatory.ready .hero-interface{animation:none}
+.hero{min-height:650px}
+.mission-info{top:24px;left:28%;width:30%;max-width:450px;opacity:0}
+.mission-info h1{font-size:clamp(32px,3vw,48px)}
+.mission-info p{font-size:12px;line-height:1.75}
+.mission-info dd{font-size:10px;line-height:1.6}
+.mission-info .eyebrow{font-size:9px}
+.mission-info .specs b{font-size:21px}
+.model-frame{top:var(--model-top,340px);bottom:135px;height:auto;left:6%;width:50%}
+.model-interaction{inset:0 9%}
+.model-tools{top:auto;bottom:96px;left:18%}
+.card-image{background:radial-gradient(ellipse at 50% 70%,#14212b65,transparent 65%);border-top:1px solid #ffffff18}
+.card-image img{padding:25px 5px;filter:none}
+@media(max-width:1000px) and (min-width:651px){.mission-info{left:27%;width:37%}.model-frame{left:3%;width:58%}.model-tools{left:13%}}
+@media(max-width:650px){.hero{min-height:720px}.mission-info{top:24px;left:7%;width:86%;max-width:none}.mission-info h1{font-size:34px}.mission-info p{font-size:12px;max-width:none}.mission-info dl{gap:22px}.model-frame{left:4%;width:92%;bottom:175px}.model-tools{left:14%;bottom:138px;font-size:7px}.model-tools button{font-size:7px}.earth-label{top:52%;left:81%}.hero-bottom{bottom:24px}}
+/* Scroll chapters keep the 3D flight continuous before the photographic exhibition. */
+.journey{height:280vh;position:relative}
+.hero{position:sticky;top:0}
+.travel-copy{position:absolute;top:44%;left:12%;right:10%;opacity:0;visibility:hidden}
+.travel-copy p{font-size:clamp(34px,4.5vw,70px);line-height:1.2;letter-spacing:-.055em}
+.travel-rule{display:block;width:90px;height:1px;background:#acc5d3;margin-top:40px}
+.explorer{background:linear-gradient(transparent,#030609 45%);padding-top:5vh}
+.explorer-grid{perspective:1200px}
+.explorer-card{transform-origin:50% 75%;will-change:transform,opacity}
+.card-image img{will-change:transform}
+@media(max-width:650px){.journey{height:280vh}.travel-copy{left:7%;top:38%}.travel-copy p{font-size:36px}.explorer-grid{perspective:none}}
+@media(prefers-reduced-motion:reduce){.hero{position:relative}.journey{height:auto}.travel-copy{display:none}.explorer-card,.card-image img{will-change:auto}}
+.explorer-card .photo-caption{font-size:9px;line-height:1.75;color:#97a9b7}.photo-caption a{color:#c2d3df}.explorer-card:nth-child(2) .card-image img{padding:40px 0}.explorer-card:nth-child(3) .card-image img{padding:28px 5px}
+
+@media(max-width:650px) and (max-height:740px){.hero{position:relative}.journey{height:240vh}}
